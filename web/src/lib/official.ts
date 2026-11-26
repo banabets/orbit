@@ -3,7 +3,7 @@
  * never to a name, so nobody can copy it by renaming themselves.
  */
 const OFFICIAL = new Set([
-  '0xac8a891e80cafb019484547352e53e81d1723375', // Orbit developer (deployed PaidInbox, receives the 5% treasury fee)
+  '0x0a86326e11cc3e9941c05318a5d3084d2a237913', // Orbit developer (deployed PaidInbox and $ORBT, receives the 5% treasury fee)
 ])
 export const isOfficial = (address?: string | null) => !!address && OFFICIAL.has(address.toLowerCase())
 /** Fixed display name for official wallets (nobody else can pick names on Orbit). */
@@ -14,7 +14,7 @@ export const OFFICIAL_NAME = 'Orbit'
  * and Orbit shows the "Buy $ORBIT" button at the top and the blue check next to the coin everywhere it is listed.
  * Buying always happens on pons; Orbit never trades.
  */
-export const ORBIT_TOKEN: string = ''
-export const ORBIT_SYMBOL = 'ORBIT'
+export const ORBIT_TOKEN: string = '0x52611c230f9afaaa8cf67d61b556b40bf86f505d'
+export const ORBIT_SYMBOL = 'ORBT'
 export const isOfficialToken = (token?: string | null) => !!ORBIT_TOKEN && !!token && token.toLowerCase() === ORBIT_TOKEN.toLowerCase()
 export const orbitBuyUrl = () => `https://ponsfamily.com/launchpad/${ORBIT_TOKEN.toLowerCase()}`

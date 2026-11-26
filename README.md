@@ -51,12 +51,14 @@ npm test        # 16 pruebas del contrato
 
 ## Pasar el correo a mainnet
 
-En la web, **Correo → Mainnet**:
+Con el servidor local corriendo (`npm run dev` o `npx vite` en `web/`), abre **http://localhost:5173/deploy-inbox.html** (o el puerto que muestre Vite):
 
 1. **Conectar wallet** (MetaMask u otra compatible). Si falta, agrega Robinhood Chain (4663) y cambia de red sola.
-2. **Tesorería**: la dirección que cobra el 5 %. Es inmutable, así que lo ideal es una multisig.
-3. **Desplegar PaidInbox**: tu wallet muestra el costo y tú firmas. Orbit nunca toca llaves privadas.
-4. Para que todos usen el mismo contrato, pon su dirección en `web/src/contracts/mainnet.json`. Sin ese archivo, cada navegador usa el que desplegó o el que pegó en «usa uno que ya desplegó tu equipo».
+2. **Treasury**: la dirección que cobra el 5 %. Es inmutable, así que lo ideal es una multisig.
+3. **Desplegar contrato**: tu wallet muestra el costo y tú firmas. La página nunca ve llaves privadas.
+4. Pon la dirección que muestra en `web/src/contracts/mainnet.json` para que todos usen ese contrato.
+
+Esa página es solo local: `vite build` no la incluye en producción.
 
 Alternativa desde la terminal (también escribe `mainnet.json`):
 

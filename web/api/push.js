@@ -16,7 +16,7 @@ import { verifyMessage, isAddress } from 'viem'
 import { redis, hasRedis, limited, readBody } from './_redis.js'
 
 const RPC = 'https://rpc.mainnet.chain.robinhood.com'
-const INBOX = '0xdcdaddaead3cea36a8d2d51e9cdd4a14657f6369' // PaidInbox on Robinhood Chain (web/src/lib/mainnet.json)
+const INBOX = '0xdc6f8bdff78411323e85d8bfc581eafe6c875fb9' // PaidInbox on Robinhood Chain (web/src/lib/mainnet.json)
 const T_MESSAGE = '0x2096cd4806a6f9634720b2b28d359d46b7292c895b42c68040ffdc1a016268bf' // Message(uint256,address,address,uint256,bytes)
 const SUBJECT = 'https://orbiteth.sbs'
 const MAX_AGE_MS = 10 * 60_000
