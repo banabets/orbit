@@ -1,0 +1,322 @@
+<title>Orbit Feature Ideas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<style>
+/* Layout: one idea per band — the pitch on the left, a live HTML phone mockup on the right; stacks on phones. Single dark look on purpose: it is Orbit' own look. */
+:root {
+  --bg: #050506; --card: #0E0E10; --card2: #151518; --line: #1F1F24; --fg: #F6F6F7; --fg2: #C9C9CE; --mu: #8E8E97; --fa: #5A5A62;
+  --buy: #3BE38F; --sell: #FF5D6C; --sun: #FFC53D; --sky: #7DD3FC; --violet: #A78BFA;
+  --font: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.55 var(--font); -webkit-font-smoothing: antialiased;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 36px 64px }
+.wrap { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums }
+.up { color: var(--buy) } .dn { color: var(--sell) } .mu { color: var(--mu) }
+h1 { margin: 0; font-size: clamp(30px, 5vw, 46px); letter-spacing: -.04em; line-height: 1.05; text-wrap: balance }
+.lead { margin: 0; color: var(--fg2); max-width: 64ch; font-size: 16px }
+.eyebrow { font: 700 11.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--mu) }
+
+/* where to start */
+.start { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px }
+.start div { border-radius: 18px; background: var(--card); border: 1px solid var(--line); padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0 }
+.start b { font-size: 15px } .start span { color: var(--mu); font-size: 13px }
+
+/* idea band */
+.idea { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; align-items: center; border-top: 1px solid var(--line); padding-top: 26px }
+.idea .txt { display: flex; flex-direction: column; gap: 12px; min-width: 0 }
+.idea h2 { margin: 0; font-size: 26px; letter-spacing: -.03em; text-wrap: balance }
+.idea p { margin: 0; color: var(--fg2); max-width: 62ch }
+.tags { display: flex; flex-wrap: wrap; gap: 6px }
+.tag { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--line); font: 600 12px var(--mono); color: var(--fg2) }
+.tag.s { border-color: rgba(59,227,143,.4); color: var(--buy) } .tag.m { border-color: rgba(255,197,61,.4); color: var(--sun) } .tag.l { border-color: rgba(255,93,108,.4); color: var(--sell) }
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; padding: 0; list-style: none }
+.facts li { border-radius: 14px; background: var(--card); border: 1px solid var(--line); padding: 10px 12px; font-size: 13px; color: var(--fg2); min-width: 0 }
+.facts li b { display: block; font: 700 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--mu); margin-bottom: 2px }
+
+/* phone mockup */
+.ph { width: 300px; max-width: 100%; justify-self: center; border-radius: 38px; border: 8px solid #1A1A1D; box-shadow: 0 0 0 1px #2A2A2E, 0 24px 60px rgba(0,0,0,.6); background: #000; overflow: hidden; display: flex; flex-direction: column; gap: 10px; padding: 16px 12px 18px; position: relative }
+.ph .bar { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 15px }
+.ph .bar .sp { flex: 1 }
+.ph .chip { display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border-radius: 999px; background: var(--card2); font: 700 11.5px var(--mono); color: var(--fg2) }
+.ph .chip.on { background: #fff; color: #000 }
+.lg { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; background: #1a1a1d }
+.lg.s { width: 22px; height: 22px } .lg.m { width: 30px; height: 30px } .lg.xl { width: 56px; height: 56px }
+.av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font: 800 12px var(--font); flex: none }
+.row { display: flex; align-items: center; gap: 10px; min-width: 0 }
+.row .n { flex: 1; min-width: 0 } .row .n b { display: block; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis } .row .n small { color: var(--mu); font-size: 11.5px }
+.box { border-radius: 18px; background: var(--card); border: 1px solid var(--line); padding: 12px }
+.btn { height: 46px; border-radius: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 14px; background: #fff; color: #000 }
+.btn.g { background: var(--buy); color: #04140b } .btn.d { background: var(--card2); color: var(--fg); border: 1px solid #2a2a2e }
+.pct { display: inline-block; padding: 2px 8px; border-radius: 999px; font: 700 11.5px var(--mono) }
+.pct.up { background: rgba(59,227,143,.14) } .pct.dn { background: rgba(255,93,108,.14) }
+.ex { position: absolute; top: 10px; right: 12px; font: 700 9.5px var(--mono); letter-spacing: .1em; color: var(--fa); text-transform: uppercase }
+
+/* 1 rug check */
+.score { display: flex; align-items: center; gap: 14px }
+.ring { width: 86px; height: 86px; border-radius: 50%; background: conic-gradient(var(--buy) 0 78%, #1d1d21 78% 100%); display: grid; place-items: center; flex: none }
+.ring span { width: 70px; height: 70px; border-radius: 50%; background: #000; display: grid; place-items: center; text-align: center; line-height: 1 }
+.ring b { font: 800 26px var(--mono) } .ring small { font-size: 9.5px; color: var(--buy); font-weight: 800; letter-spacing: .08em }
+.check { display: flex; flex-direction: column; gap: 7px; margin: 0; padding: 0; list-style: none; font-size: 12.5px }
+.check li { display: flex; align-items: center; gap: 8px; color: var(--fg2) } .check li i { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font: 800 11px var(--font); font-style: normal; flex: none }
+.ok i { background: rgba(59,227,143,.16); color: var(--buy) } .warn i { background: rgba(255,197,61,.16); color: var(--sun) } .bad i { background: rgba(255,93,108,.16); color: var(--sell) }
+
+/* 2 flex card */
+.flex { border-radius: 22px; padding: 16px; position: relative; overflow: hidden; background: radial-gradient(120% 90% at 0% 0%, rgba(59,227,143,.35), transparent 60%), radial-gradient(90% 80% at 100% 100%, rgba(167,139,250,.3), transparent 60%), #0b0b0d; border: 1px solid #2a2a2e; display: flex; flex-direction: column; gap: 10px }
+.flex .big { font: 800 44px var(--mono); letter-spacing: -.05em; line-height: 1; color: var(--buy) }
+.flex .ln { display: flex; justify-content: space-between; font-size: 12px; color: var(--fg2) }
+.flex .wm { display: flex; align-items: center; gap: 6px; font: 800 12px var(--font); color: var(--fg2) }
+
+/* 3 wallet watch */
+.push { border-radius: 18px; background: rgba(30,30,34,.95); border: 1px solid #2c2c31; padding: 10px 12px; display: flex; gap: 10px; align-items: flex-start }
+.push .ic { width: 30px; height: 30px; border-radius: 9px; background: #000; display: grid; place-items: center; flex: none; font-weight: 800; font-size: 13px }
+.push b { font-size: 12.5px } .push p { margin: 1px 0 0; font-size: 12px; color: var(--fg2) } .push small { color: var(--fa); font-size: 10.5px }
+
+/* 4 hunters */
+.season { border-radius: 18px; padding: 12px; background: linear-gradient(135deg, rgba(255,197,61,.18), var(--card) 70%); border: 1px solid rgba(255,197,61,.3); display: flex; justify-content: space-between; align-items: center }
+.season b { font: 800 22px var(--mono); color: var(--sun) }
+.lb { display: flex; flex-direction: column; gap: 2px }
+.lb .row { padding: 7px 2px; border-bottom: 1px solid var(--line) } .lb .row:last-child { border-bottom: 0 }
+.lb .pts { font: 700 13px var(--mono); color: var(--sun) }
+.badges { display: flex; gap: 6px; flex-wrap: wrap }
+
+/* 5 bounties */
+.bounty { display: flex; flex-direction: column; gap: 8px }
+.bounty .top { display: flex; align-items: center; gap: 10px }
+.reward { font: 800 20px var(--mono); color: var(--sun) }
+.progress { height: 6px; border-radius: 6px; background: #1d1d21; overflow: hidden } .progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--buy), var(--sun)) }
+
+/* 6 rooms */
+.chat { display: flex; flex-direction: column; gap: 6px }
+.bub { max-width: 85%; padding: 8px 11px; border-radius: 16px; font-size: 12.5px; background: var(--card2) }
+.bub.me { align-self: flex-end; background: #fff; color: #000 }
+.bub small { display: block; font-size: 10px; color: var(--mu); margin-bottom: 1px } .bub.me small { color: #555 }
+.gate { border-radius: 14px; border: 1px dashed #34343a; padding: 9px 11px; font-size: 11.5px; color: var(--fg2); display: flex; align-items: center; gap: 8px }
+
+/* 7 stock board */
+.vs { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; text-align: center }
+.vs .tk { border-radius: 16px; background: var(--card); border: 1px solid var(--line); padding: 10px 6px; display: flex; flex-direction: column; align-items: center; gap: 4px }
+.vs .x { font: 800 12px var(--mono); color: var(--fa) }
+.stk { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font: 800 12px var(--mono); background: #10261b; color: var(--buy); border: 1px solid #1e4a33 }
+
+.foot { color: var(--mu); font-size: 13px; border-top: 1px solid var(--line); padding-top: 18px; max-width: 80ch }
+@media (max-width: 860px) { .idea { grid-template-columns: minmax(0, 1fr) } .start { grid-template-columns: minmax(0, 1fr) } }
+@media (max-width: 460px) { .facts { grid-template-columns: minmax(0, 1fr) } }
+</style>
+
+<div class="wrap">
+  <span class="eyebrow">Orbit · ideas para pons</span>
+  <h1>Lo que le falta a pons, y podemos lanzar en Orbit</h1>
+  <p class="lead">Siete funciones que pons no tiene hoy. Cada una trae su maqueta en HTML, tal como se vería en la app. Las primeras usan datos que Orbit ya lee de la cadena, así que se pueden lanzar rápido. Los números de las maquetas son de ejemplo.</p>
+
+  <span class="eyebrow">Por dónde empezaría</span>
+  <div class="start">
+    <div><b>1 · Rug Check</b><span>Es lo que más miedo da en un launchpad. Sale con datos que ya tenemos.</span></div>
+    <div><b>2 · Flex cards</b><span>Cada ganancia compartida en X es publicidad gratis para Orbit.</span></div>
+    <div><b>3 · Seguir wallets</b><span>Ya existen las alertas. Solo falta seguir wallets, no solo tokens.</span></div>
+  </div>
+
+  <!-- 1 -->
+  <section class="idea">
+    <div class="txt">
+      <span class="eyebrow">Confianza</span>
+      <h2>Rug Check: un puntaje de seguridad en cada token</h2>
+      <p>Antes de comprar, ves un puntaje de 0 a 100. Mide cuánto tiene el creador, si ya vendió, qué tan concentrados están los 10 mayores holders, cuánto cobra de impuesto y qué pasó con sus lanzamientos anteriores. En pons hoy no hay nada parecido.</p>
+      <div class="tags"><span class="tag s">Esfuerzo bajo-medio</span><span class="tag">Sin contrato nuevo</span></div>
+      <ul class="facts">
+        <li><b>Ya tenemos</b>Trades de cada curva, ventas del creador, su historial de lanzamientos e impuesto.</li>
+        <li><b>Falta</b>Lista de holders por token (indexador), para la concentración del top 10.</li>
+      </ul>
+    </div>
+    <div class="ph" aria-label="Maqueta de Rug Check">
+      <span class="ex">ejemplo</span>
+      <div class="row"><img class="lg" src="data:image/webp;base64,UklGRh4FAABXRUJQVlA4IBIFAAAQGQCdASpgAGAAPpU8mUglo6KhLViOELASiWIAyqhTsBuRmmfV7t2edv06eQTz4pixYa5V4j9KDNR8p31h7BaSuU1+amb38bdFK3WJrG0nusCHKlJS7WXBkI3UPqoQhtRZu+LzKRJIb4/9F7RYpvxoiP30R7hrGNZ7bJRMLZe6pQyWEzoYYsj2BX3ay4JUOmKxpryH3w0sinxH1MNYKAomJQ5Qp+Z9iOsCeMgNODV/UpW6iypSYCXVmIc78JXXP/BjL3mrHx8WiIwPmcN55GRuAAD+/FzTIZa31W/hRlX5ZGGO2HTIBm5gx5V2CBPclJ96AoBlVsj/IRrks/0GOXTsbno79jlor7Eraz5RdBEQ8Ts9MpvB108Syfb527+fZnJlXt/KxQuHDZ0kLjtIhMs80O+6aINOOs5+H6W1E/j7/pyu4/v7tFG8nYRb9ZJyVj69VbRjxfItGuXH4geQlbHBK7fdqEiOJrODoLO6xT2YgzGOEgyistP3UEOwUphKIn7ptlmB7adbfbNtRub9E4ivSDRsbBnazpOIqYZQadYeFymyYr1lEB14pEbNQXMnpXIgWtxDJeJyR5uq+2sb/J8LIDLnE45IoiJxpMuuWE/Z2yFCCRwLN2TwCqVTNT30JvZPTYM8bt9N//f89RutRCYRf4DxI1mYnQgPvZw0+ALrdJ889gODlouMaBPpF5+nsIIncNo8cnGtxlPPJH/kNhvAm1ijuVsgzm7UZX/3cD6kQXNRANQFgildZ8xRrb65ifVw7SIMbR1882V3mdYzI2Kl0Ku9Sjb5NRRkbUqE8CNJzjaf26xGqsu1jrF12YhjcOZqE2A/wM43Cq/tf+xFdXmisPPeWxD1/LjzxaqhrWKzzBA0WAmRe9i9h9UJJMqKmX4IJX0ABN5/cXKKJyqfVKDZzqWHJv/oyT/eozikDW5phBu4/juTzTj0Fpfqa0nOjCiKIVUrAxl8X7nm4jMybJK01gkrzBbTzZV9s0KTboaEJKg6Y+yf/Ci8hInwjIzgq/N+vZEcj0qpQNzhauGh1IaOERkFMWoDAW4oSrAgQlR1X6q8KiyfsFJf0LGu12rQ4TvFlKi/7eCep6u/iuiDlSHVVhym6w6hSpIwc2+gXhEv88WH/DeNiZmZnxp0o/O56kaKV3Qa3wbTZuX9gZO+ncp8DBLFAvdVFT1d1gqY0ETFCp1t0mTkejppFec/w/RTiIrhVR7qQaM56X0Ykz09X+TDDVAuff1/FT8Y7YKknYrehd+qMpmuXR9X545nTnj5pFlj2b8evmLjqel5BCsR78skMLH2Ksc6zE7kDXhOCDaZthe7IaP2fAsg6nE9lYDpfKWDz+3oUL/Hw5kD9/SXpyvnQLlxhZ1ZrMl09AW7a471E5DGjs5QPkz3a03KXRu1lD+KrH4KNJtbZHptivlikkA8OG4xO5nxBrP6ZDIbu//95dZMx7f2sFq2/6OGtu+H4Vg+AfhDQT7msxG3MQsNxkSLybFPN1mKwBOfUqAigJM0m9+w1RiPFaV/WOMbaru15i+d27ucvPhqE/KETNeLqtqBoaWZqonZFh4Y0g2ZwAvMnxOZCyAOnL3xbcKpK3M/oBVOKFTYuloHbKO+kqtMMg44dS1Lj0TjK3OBIhfRj0LoBVpJOy+2anEPt+rIsQzngE8Z2msZaTE38bsOrtYeYjlR5kwp0AQc7Zp9MVnB+zlKm1NKUvPcav/g0xyeZGAUPoAAAA==" alt=""><div class="n"><b>Cowz</b><small>$COWZ · 3h</small></div><span class="pct dn">−47%</span></div>
+      <div class="box score">
+        <span class="ring" style="background:conic-gradient(var(--sell) 0 31%, #1d1d21 31% 100%)"><span><b style="color:var(--sell)">31</b><small style="color:var(--sell)">RISKY</small></span></span>
+        <ul class="check">
+          <li class="bad"><i>!</i>Creator sold $2.7K</li>
+          <li class="warn"><i>!</i>Top 10 hold 64%</li>
+          <li class="ok"><i>✓</i>Creator tax 2%</li>
+          <li class="bad"><i>!</i>2 of 3 past launches died</li>
+        </ul>
+      </div>
+      <div class="row"><img class="lg" src="data:image/webp;base64,UklGRkwDAABXRUJQVlA4IEADAAAwFQCdASpgAGAAPpVCnEmlo6KhLVVZiLASiWUAzpXr3HE/hcrKvhpXlDhcOYXzfL7ALPkhfe1IuwZSm8iYWILzg/u7FH+iLuLanEuxXOm4ATQ7KNG/GqXrcX9Rr5dFN490u1xEPmKUm5fCLvlojPhZFGPcFyqquIPwfxH7U5tD1azSv82UfDlYVf90WMqgq4QZ3sNh6ps9ED33gH9EZzMMDSCcZPu1Sqp1f19n0sBNRJ+gAP76iNx+f6yyEHjAD7xogidXwyzoktDq7Cme9318SHphtvIwVtC8/F5g4BKQd53bKEBxL2jjPAQ0Kw96iztfnHFWhDlwtdnemnLfR0bJa6Z4+PZc/lHuf9wEEYXcivrU1w9dWjZKx36FIdAIo1zuRptNVrVNpjK5ntDWHMmYDo/TPpthvtkjyZxJ/5WfdjKVjRMaA6KhreSZqQXntYudrhH03PQA136VQ80yv98xYRrYZhqP83gOhLj34S65Jb0CZtOZCCoCfg/e6LilRwCCA7h+wmWVQsy9DD9gVHsRAXQzeIVwHV9nDSgvKbAsAQ5qOPFAJ+PzTd7Em8Y3Pvat1pAgB6hmabFAlGtwGQVb0IFWuw7uHBkQ7/geYAZgPa6WkhycKkxtAbuWwXr3B68InwQvXwGeW4fV/YVFY3vF3Ms6nEl3N4RF20wk6m887/xKq0JXmUHy4+jXl5iJ7j5Wwsys8wf5XImITi5GreIuiaMG0x1eK01QebzqL4rFVgr2TxWFWTIJebJwX9ZE0f+1k6ehbB+n4vClrci08iT/Sbol2yb2SgzAG04STKe2l3tuWEYuu66i/hPOetldII3UbM/5vacfSr/wYg771qZE22/etnruJYhoPPZoDY7TE7hFDY2K6pix1m/Va0XXOhtAejDKXa5jKoDwhejGhDavaodQ65Myj7Oq4/ZjQiD4E1wM61jcergYBm+UgkyMxI7Yo+yRK5wZMdj2ivrqj5/B+b+baU+TnCUTf1iGy08sbwZdrCawJS+kCgFBiYWa3cNwzvXu9CkX5AMz6DQW5oO1adi7pNnSPjOBJACZLL0fk4djvQ8tYFMk0I+TryJJd2RlsGtAQCTkTvaEItGSAAAA" alt=""><div class="n"><b>Candleoath</b><small>$CANDLEOATH · 34m</small></div></div>
+      <div class="box score">
+        <span class="ring"><span><b>82</b><small>SAFE</small></span></span>
+        <ul class="check">
+          <li class="ok"><i>✓</i>Creator never sold</li>
+          <li class="ok"><i>✓</i>Top 10 hold 22%</li>
+          <li class="ok"><i>✓</i>3 past launches graduated</li>
+          <li class="warn"><i>!</i>Only 34 min old</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="idea">
+    <div class="txt">
+      <span class="eyebrow">Viral</span>
+      <h2>Flex cards: tu ganancia, lista para X</h2>
+      <p>Con un toque, tu Portfolio genera una tarjeta con el token, tu ganancia y el link de Orbit. Se comparte en X o Telegram. La gente de memecoins vive de mostrar sus ganancias, y cada tarjeta trae gente nueva.</p>
+      <div class="tags"><span class="tag s">Esfuerzo bajo</span><span class="tag">Sin contrato nuevo</span></div>
+      <ul class="facts">
+        <li><b>Ya tenemos</b>Compras, ventas y ganancia por token en el Portfolio.</li>
+        <li><b>Falta</b>Generar la imagen y una vista previa para X (con el dominio listo).</li>
+      </ul>
+    </div>
+    <div class="ph" aria-label="Maqueta de Flex card">
+      <span class="ex">ejemplo</span>
+      <div class="flex">
+        <div class="row"><img class="lg xl" src="data:image/webp;base64,UklGRtoCAABXRUJQVlA4IM4CAADQEACdASpgAGAAPpVKnkqlpKKhplbawLASiWMA1OWKgwHiLbgDHAN4prvj7NXMf53+V1/Ms/SNTPvLgzXbmM12abs4G0VArHiYL7Rr4UtD7XhCxtxmHM9LU7oPjqx3abPAQ2ryHqTfrVl1MN89avj7O9SJ/O3xYTPnothcFP4igEIWEP1nj3E8zuI7qWb/sAD++WXUIEn+eiJ+TV/Jcfk3oLRYz/DNmXlt4Yj0yOfr9TQvkWm9pbo72+06chU9roT99KR91X0Oyh+LGwVOQR1Y//+GtpvEH7k+jXtp8PADa0ZS52C22Hiq/2BjN9OAG7yXpnz7g/epzm28XvDbg+zCY7txdQpkTyXK11P/cLGMH0+UnY99VmxIS0uXWGrCCf17QfR8XCLYOuz32v90tRzug/XL160X0TawxDWK371rkDLs4OFNO/MaIWDjxRdW7jjOtRW7tyKDCuj/83Fb93fUMs+mpdB+mitqfLRfdy2IoJY9hTeDGDOygxlOclH0jQTJm8AVPbao3bLMGP6vs80tnjKB46Tkeg9/D5Vl/XS6Buk9/FR303OVWqfMuOmsFMqr8upF13o1Kq2JEydR81nDYc1epT9ZhSsJ82vArvmXvHZKeWMBdbV2gF2G+uXNieyeyq5fEtpBrZQbCp85+nLQZg04OI+KLG3o2Y8O7djJ89q57TFgU1mTMoBYOue3AWQKoEzCB0LUQR2i/0MAMiEIcxnfTB7Z4n7nv5IIoBxY2qObsBBv1QGlm3q1S+9fJBNe4XifHY1Xr/VKnt5Y35Lr4Fzs0+jBnltrAveICMiwktZei/WlrhdscX7jNQfSd2G8DS40Oj3dxm9js8n/E4PJ6Y5oqJx3gZFuxKS0YB46GcoyB3Zy+4+7JAwTxDH/MLNicpq38rrWa9YZ8W4cVjTJgxocO4FXraLd95731pI/btHmpK3Wz4utddSAAAAA" alt=""><div class="n"><b style="font-size:18px">$KALIBR</b><small>held 2 days</small></div></div>
+        <span class="big">+312%</span>
+        <div class="ln"><span>Bought</span><b class="mono">$120</b></div>
+        <div class="ln"><span>Now</span><b class="mono up">$494</b></div>
+        <div class="ln"><span>Caught at</span><b class="mono">8% of curve</b></div>
+        <span class="wm">◆ orbit · the pulse of pons</span>
+      </div>
+      <div class="btn">Share on X</div>
+      <div class="btn d">Save image</div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="idea">
+    <div class="txt">
+      <span class="eyebrow">Alpha</span>
+      <h2>Seguir wallets: avísame cuando esta ballena compre</h2>
+      <p>Sigues a cualquier wallet: un trader que siempre llega temprano o un creador conocido. Cuando compra, te llega la alerta con el token y un botón para abrirlo en pons. En el Leaderboard puedes seguir a los mejores con un toque.</p>
+      <div class="tags"><span class="tag s">Esfuerzo bajo</span><span class="tag">Sin contrato nuevo</span></div>
+      <ul class="facts">
+        <li><b>Ya tenemos</b>El sistema de alertas, el feed de compras en vivo y los nombres de pons.</li>
+        <li><b>Falta</b>Avisos con la app cerrada (servidor de push) y que tus seguidos vivan en tu cuenta.</li>
+      </ul>
+    </div>
+    <div class="ph" aria-label="Maqueta de seguir wallets">
+      <span class="ex">ejemplo</span>
+      <div class="push"><span class="ic">◆</span><div><b>SolarCreamRabbit bought $MINECAT</b><p>+$1,240 · 🐋 whale buy</p><small>now · Orbit</small></div></div>
+      <div class="push"><span class="ic">◆</span><div><b>LoyalPewterSparrow bought $UTO</b><p>+$310 · first buy in this token</p><small>2m ago · Orbit</small></div></div>
+      <div class="box" style="display:flex;flex-direction:column;gap:10px">
+        <div class="row"><span class="av" style="background:#2b1d3a;color:#e9d5ff">🐇</span><div class="n"><b>SolarCreamRabbit</b><small>Win rate 68% · 41 trades</small></div><span class="chip on">Following</span></div>
+        <div class="row"><img class="lg m" src="data:image/webp;base64,UklGRp4DAABXRUJQVlA4IJIDAABwGQCdASpgAGAAPoU2lkglIyInubYckPAQiWUAxfzvD4aSeZt2WbtxNgk1IK3CdPVrBhFVyJF5l6IG9qmejr7nX9xKA70H/eav+v1n3LxCcto/evmGupvNVKZck5d1LX8YTB0h5ID1kWU9Ux2z/BLUFMcKoIDttYv7y8E08wH+IVkXG9pDO12g6Lwp+47xp/AoH6Hzwv61JATZWL1qQDuhdZWudSoizT6msJomTiGBOWsRlrvvLxAyG9EFjfODD6TGQv8i1SaF2/WMHZfwmQMqDnXPAAD+5OZec+II2Bl5PeQoX7ajLmHYMjtYD6GCZFr8kYYGJ1w7Mr81vJAzPi46f6oIkG22kfUXqx68FOdOKuQrXbbAWsM8yfttBlrH/WdCnRLM50TnCUJrkZoQtz7rrbXnSdctzYuVswgK9u5whACLVgaPC0C/Kn2CUNtp9PajZbYj64Lv+XyZPdI5/dVrBLh6OR0tNpM1F6s1gDvNCj83EGGwIMrnfpPfeRbaAP6eIb//7AvinnR9g4Zc44pBFCqGKLxZpkfIrxq352i6WFGhcO+PS4+/rIKzyC4bQhVg6KsCXmlP9lO6JWrV7StRNfE3iXA0Yolq7Q2ctQ0HYJ05rRZAy94foVFhxF2G4tiURBihEDoLzyNGsXWEjtbMFqdOJh1mKTN9APOGvLLR/r1tEOy1Sxqyj5C72YTJeiZAWVmZl6IW74ADS8lyC6mXBEdMt4SNO5i7U54jH5zzVkBjDDrT5OAiIbHsqwBPTOyKyBzMStOyoyK7uxHwcqT4oochhBjYdHidz7TX8s+AeNgBCgxFV87z0GUAHtCGhAiXlm5TCjvwb9CBR/i/0FGO6yGbUgQdg3j5943jElCf4s3Ap4Fa+dlUbU7WR7t99N4in2hqWNgEP888g3GYDoNnpKA/7YzAONCxJZ0iqBuNO1ndGdpipX09iAJmasWzHq1ILKP/B60L9LCz9VFbygv6nIeQcKAxOzsT6IdU6MKuv2BB1VzIy1KaPG0gNSugGbOdkBwGQy9drFAUPS+Si2dgUbPChy1CFMHbt++cmAql1cnfAI7+listHAkIqh0vFnUEhUd2P2ZeSyFxFKKo/DVlleKyGgI6gvig9V+8LHI8KxKdT/gp5MMgfdHU3z7lHUhUGWZRQyZB4GZAV7cCpWnSMZp4wxwJf309nDXmX+uAQ0ty8EuvG7pp1uzGm+vDzz8YAA==" alt=""><div class="n"><b>Bought $MINECAT</b><small>$1,240 · at 12% of curve</small></div><span class="mono up" style="font-size:12px">+64%</span></div>
+        <div class="row"><img class="lg m" src="data:image/webp;base64,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" alt=""><div class="n"><b>Bought $UTO</b><small>$880 · at 5% of curve</small></div><span class="mono up" style="font-size:12px">+210%</span></div>
+      </div>
+      <div class="btn g">Open $MINECAT on pons</div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="idea">
+    <div class="txt">
+      <span class="eyebrow">Juego</span>
+      <h2>Temporadas de Hunters con premios en PONS</h2>
+      <p>Ganas puntos por comprar temprano tokens que después se gradúan. Cada temporada dura dos semanas, con ranking, insignias y premios en PONS pagados con parte del 5% que cobra Mail. Es un juego de habilidad: no se apuesta nada y los puntos salen de compras reales que ya hiciste.</p>
+      <div class="tags"><span class="tag m">Esfuerzo medio</span><span class="tag">Premios desde la tesorería</span></div>
+      <ul class="facts">
+        <li><b>Ya tenemos</b>Las graduaciones y quién compró antes de cada una.</li>
+        <li><b>Falta</b>Indexador con todo el historial y reglas contra bots (wallets del mismo dueño).</li>
+      </ul>
+    </div>
+    <div class="ph" aria-label="Maqueta de temporada de Hunters">
+      <span class="ex">ejemplo</span>
+      <div class="season"><div><span class="mu" style="font-size:11.5px">Season 1 · ends in 9d 4h</span><br><b>50,000 PONS</b></div><img class="lg m" src="data:image/webp;base64,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" alt=""></div>
+      <div class="box lb">
+        <div class="row"><span class="mono" style="color:var(--sun);width:16px">1</span><span class="av" style="background:#3a2b12;color:#fde68a">🦊</span><div class="n"><b>QuietOrbitFinch</b><small>14 graduations caught</small></div><span class="pts">9,420</span></div>
+        <div class="row"><span class="mono mu" style="width:16px">2</span><span class="av" style="background:#12303a;color:#a5f3fc">🐬</span><div class="n"><b>SpryNavyPenguin</b><small>11 graduations caught</small></div><span class="pts">7,980</span></div>
+        <div class="row"><span class="mono mu" style="width:16px">3</span><span class="av" style="background:#1d3a24;color:#bbf7d0">🐸</span><div class="n"><b>FineSlateNewt</b><small>9 graduations caught</small></div><span class="pts">6,105</span></div>
+        <div class="row" style="background:var(--card2);border-radius:12px;padding:7px 8px"><span class="mono mu" style="width:16px">48</span><span class="av" style="background:#333;color:#fff">You</span><div class="n"><b>You</b><small>3 caught · next badge at 5</small></div><span class="pts">1,240</span></div>
+      </div>
+      <div class="badges"><span class="chip">🎯 First 10 buyers</span><span class="chip">🎓 5 grads</span><span class="chip">🐋 Whale</span></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="idea">
+    <div class="txt">
+      <span class="eyebrow">Trabajo</span>
+      <h2>Bounties: los equipos pagan en PONS por memes, arte y difusión</h2>
+      <p>Un creador publica una tarea («meme para $POKENOMIC, premio 2,000 PONS») y deja el pago en garantía en un contrato. La gente entrega su trabajo, el creador elige al ganador y el contrato paga. Si nadie gana, el dinero vuelve. Es el mismo sistema de garantía que ya hicimos para Mail.</p>
+      <div class="tags"><span class="tag l">Esfuerzo alto</span><span class="tag">Contrato nuevo + auditoría</span></div>
+      <ul class="facts">
+        <li><b>Ya tenemos</b>El patrón de pago en garantía, PONS/ETH y la comisión del 5% de PaidInbox.</li>
+        <li><b>Falta</b>Contrato de bounties, guardar las entregas (servidor) y una auditoría antes de mainnet.</li>
+      </ul>
+    </div>
+    <div class="ph" aria-label="Maqueta de bounties">
+      <span class="ex">ejemplo</span>
+      <div class="bar">Bounties<span class="sp"></span><span class="chip on">Open</span><span class="chip">Mine</span></div>
+      <div class="box bounty">
+        <div class="top"><img class="lg" src="data:image/webp;base64,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" alt=""><div class="n" style="flex:1;min-width:0"><b style="font-size:13.5px">Best meme for $POKENOMIC</b><br><small class="mu">by the creator · 23 entries</small></div></div>
+        <div class="row"><span class="reward">2,000 PONS</span><span class="sp" style="flex:1"></span><span class="mu" style="font-size:11.5px">ends in 2d</span></div>
+        <div class="progress"><i style="width:62%"></i></div>
+        <small class="mu">🔒 Reward held by the contract · refunded if no winner</small>
+      </div>
+      <div class="box bounty">
+        <div class="top"><img class="lg" src="data:image/webp;base64,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" alt=""><div class="n" style="flex:1;min-width:0"><b style="font-size:13.5px">Logo redesign for $VALKRYN</b><br><small class="mu">by the creator · 6 entries</small></div></div>
+        <div class="row"><span class="reward">0.05 ETH</span><span class="sp" style="flex:1"></span><span class="mu" style="font-size:11.5px">ends in 5d</span></div>
+        <div class="progress"><i style="width:20%"></i></div>
+      </div>
+      <div class="btn">Post a bounty</div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="idea">
+    <div class="txt">
+      <span class="eyebrow">Comunidad</span>
+      <h2>Salas de holders: chat solo para quien tiene el token</h2>
+      <p>Cada token tiene su sala, y solo escribe quien lo tiene. Así se acaban los bots y la gente que solo viene a hablar mal. Tu insignia muestra cuánto tienes y desde cuándo, y el creador puede fijar anuncios. Hoy esas comunidades viven en Telegram, fuera de pons.</p>
+      <div class="tags"><span class="tag m">Esfuerzo medio</span><span class="tag">Servidor de chat</span></div>
+      <ul class="facts">
+        <li><b>Ya tenemos</b>Balances por wallet, nombres de pons y login con wallet (firma).</li>
+        <li><b>Falta</b>Servidor de mensajes en tiempo real y moderación básica.</li>
+      </ul>
+    </div>
+    <div class="ph" aria-label="Maqueta de sala de holders">
+      <span class="ex">ejemplo</span>
+      <div class="row"><img class="lg" src="data:image/webp;base64,UklGRkwDAABXRUJQVlA4IEADAAAwFQCdASpgAGAAPpVCnEmlo6KhLVVZiLASiWUAzpXr3HE/hcrKvhpXlDhcOYXzfL7ALPkhfe1IuwZSm8iYWILzg/u7FH+iLuLanEuxXOm4ATQ7KNG/GqXrcX9Rr5dFN490u1xEPmKUm5fCLvlojPhZFGPcFyqquIPwfxH7U5tD1azSv82UfDlYVf90WMqgq4QZ3sNh6ps9ED33gH9EZzMMDSCcZPu1Sqp1f19n0sBNRJ+gAP76iNx+f6yyEHjAD7xogidXwyzoktDq7Cme9318SHphtvIwVtC8/F5g4BKQd53bKEBxL2jjPAQ0Kw96iztfnHFWhDlwtdnemnLfR0bJa6Z4+PZc/lHuf9wEEYXcivrU1w9dWjZKx36FIdAIo1zuRptNVrVNpjK5ntDWHMmYDo/TPpthvtkjyZxJ/5WfdjKVjRMaA6KhreSZqQXntYudrhH03PQA136VQ80yv98xYRrYZhqP83gOhLj34S65Jb0CZtOZCCoCfg/e6LilRwCCA7h+wmWVQsy9DD9gVHsRAXQzeIVwHV9nDSgvKbAsAQ5qOPFAJ+PzTd7Em8Y3Pvat1pAgB6hmabFAlGtwGQVb0IFWuw7uHBkQ7/geYAZgPa6WkhycKkxtAbuWwXr3B68InwQvXwGeW4fV/YVFY3vF3Ms6nEl3N4RF20wk6m887/xKq0JXmUHy4+jXl5iJ7j5Wwsys8wf5XImITi5GreIuiaMG0x1eK01QebzqL4rFVgr2TxWFWTIJebJwX9ZE0f+1k6ehbB+n4vClrci08iT/Sbol2yb2SgzAG04STKe2l3tuWEYuu66i/hPOetldII3UbM/5vacfSr/wYg771qZE22/etnruJYhoPPZoDY7TE7hFDY2K6pix1m/Va0XXOhtAejDKXa5jKoDwhejGhDavaodQ65Myj7Oq4/ZjQiD4E1wM61jcergYBm+UgkyMxI7Yo+yRK5wZMdj2ivrqj5/B+b+baU+TnCUTf1iGy08sbwZdrCawJS+kCgFBiYWa3cNwzvXu9CkX5AMz6DQW5oO1adi7pNnSPjOBJACZLL0fk4djvQ8tYFMk0I+TryJJd2RlsGtAQCTkTvaEItGSAAAA" alt=""><div class="n"><b>$CANDLEOATH holders</b><small>128 holders · 31 online</small></div></div>
+      <div class="gate">📌 Creator: graduation party when we hit 4.2 ETH</div>
+      <div class="chat">
+        <div class="bub"><small>BraveIvoryQuail · 🐋 2.1%</small>who's holding through grad?</div>
+        <div class="bub"><small>FondGlassThrush · 0.4%</small>me, curve at 71% already</div>
+        <div class="bub me"><small>You · 0.8% · since day 1</small>not selling a single one 🔒</div>
+        <div class="bub"><small>SpryNavyPenguin · 1.2%</small>creator hasn't sold, good sign</div>
+      </div>
+      <div class="gate">✍️ Only holders can write · you hold 8.1M $CANDLEOATH</div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="idea">
+    <div class="txt">
+      <span class="eyebrow">Solo en Robinhood Chain</span>
+      <h2>Memes contra acciones: el tablero de pares con acciones</h2>
+      <p>En pons hay tokens que cotizan contra acciones tokenizadas (NVDA, TTWO…). Ninguna otra cadena tiene eso. Proponemos un tablero que compare cada meme con su acción: quién sube más hoy, cuánto de cada acción hay metido en curvas, y un índice de memes por acción.</p>
+      <div class="tags"><span class="tag s">Esfuerzo bajo</span><span class="tag">Sin contrato nuevo</span></div>
+      <ul class="facts">
+        <li><b>Ya tenemos</b>El par de cada lanzamiento y el precio en USD de las acciones que publica pons.</li>
+        <li><b>Falta</b>Historial de precio de cada acción para comparar el día.</li>
+      </ul>
+    </div>
+    <div class="ph" aria-label="Maqueta del tablero de pares con acciones">
+      <span class="ex">ejemplo</span>
+      <div class="bar">Meme vs Stock<span class="sp"></span><span class="chip on">24h</span></div>
+      <div class="vs">
+        <div class="tk"><img class="lg" src="data:image/webp;base64,UklGRmgCAABXRUJQVlA4IFwCAAAwDwCdASpgAGAAPpVGnUqlo6KhqBcaYLASiUAaCTkfTtFU0QJz0F7aX/50pU1NPsqWhB+ILjqQ/xGyx0Qwd3cijz00s3mtrGIr3ZlfUjlS1f5m24ZaVo3a+/Gw6Jbh1qOVuZ3vKj2WnZr5/8f3w6anVcTPENe7voDO2JYopyKb9fIAAP76M8v4uxnjHj58zSdPVMWc9Q1Dqe+FIenAAUOuJk5s6kcsTDvLGEv/cR50K3bGkcHuUStNhxSy2b2Pb6AkaBsPUFaXqMfMHTlM/gIERK6USPzVt9KYS6a9923U1ZNZrzvLDMzU+CBRn6nrTv31N3uW/AnsT8g9ZfUC0NJywvP1YLuo49OvaPLZq39T+6A7m6svXAPGbmo0+BPkLd8K8ZaG5IMTaAUQ3BILar41Zbu8bwVwvl1/1E1YhyGDez0QnpC5x04rixP2LONkPfOpaBBrMmvWb6hGHrSF9GY23fHKjyDB6l71C502rORXP2NCv20GavlWGJTf3+4ARsc1yEblSLa7L0pH+gD86fQbLeh0e7qhYyNlk1jKGfJt27bUq8IWQa5pP18ztx4A1KZBZTZUdSwqamCIAzbxRqE0tmSNKFbmulGqKpAR1k49aWSM3YMSnyS2Dhbseji9Rn9INnVWuajOLUpbIxIOZxZnipysZB+nvityj43uKn1MgTQhG7q9gBRyacALAe4d0/1S+zJyGW9IhobThhLHT6q+DqPy0DXOS7+oNc2SvJ74frQjyUIXaqXzcHeTYSNQ877WoYb65O8P9zrs/CeKfKFulxmlT08vAa46QAAA" alt=""><b style="font-size:12.5px">$PONDIX</b><span class="pct up">+25.0%</span></div>
+        <span class="x">VS</span>
+        <div class="tk"><span class="stk">NVDA</span><b style="font-size:12.5px">Nvidia</b><span class="pct up">+1.8%</span></div>
+      </div>
+      <div class="box" style="display:flex;flex-direction:column;gap:9px">
+        <div class="row"><span class="stk" style="width:30px;height:30px;font-size:9px">NVDA</span><div class="n"><b>14 memes on NVDA</b><small>$38.2K of NVDA in curves</small></div><span class="mono up" style="font-size:12px">+9.4%</span></div>
+        <div class="row"><span class="stk" style="width:30px;height:30px;font-size:9px">TTWO</span><div class="n"><b>6 memes on TTWO</b><small>$7.9K of TTWO in curves</small></div><span class="mono dn" style="font-size:12px">−3.1%</span></div>
+        <div class="row"><span class="stk" style="width:30px;height:30px;font-size:9px">USDG</span><div class="n"><b>31 memes on USDG</b><small>$52.6K in curves</small></div><span class="mono up" style="font-size:12px">+2.2%</span></div>
+      </div>
+      <div class="btn d">See all stock pairs</div>
+    </div>
+  </section>
+
+  <p class="foot">Todas las maquetas son HTML y CSS, sin dibujos en lienzo. Los logos son de tokens reales de pons. Los nombres, montos y puntajes son de ejemplo. Dime cuáles te gustan y en qué orden, y las paso a Orbit con la misma regla de siempre: lo de móvil no toca escritorio.</p>
+</div>

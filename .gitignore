@@ -1,0 +1,18 @@
+# dependencies and builds (recreated with npm install / npm run build)
+node_modules
+dist
+contracts/artifacts
+contracts/cache
+.vercel
+
+# logs and local leftovers
+*.log
+.tmp
+__pycache__
+web/src/contracts/deployment.json
+
+# secrets: never commit these
+.env
+.env.*
+*.pem
+*.key

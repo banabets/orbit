@@ -1,0 +1,273 @@
+<title>Orbit Prelaunch Ideas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<style>
+/* Layout: one board per idea (desktop frame + phone frame side by side), notes under each. Orbit is dark-only, so is this. */
+:root {
+  --bg: #000; --s1: #0B0B0D; --s2: #131316; --s3: #1B1B1F; --line: #1F1F24; --line2: #2A2A30;
+  --fg: #F4F4F6; --fg2: #C9C9CE; --mu: #8A8A93; --fa: #5C5C66;
+  --up: #3BE38F; --dn: #FF5D6C; --sun: #FBBF24; --sky: #7DD3FC; --vio: #A78BFA; --x: #1D9BF0;
+  --sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 14px/1.5 var(--sans); padding-block: 40px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.wrap { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 60px }
+header h1 { font-size: clamp(28px, 4vw, 40px); letter-spacing: -.03em; margin: 0 0 8px; text-wrap: balance }
+header p { margin: 0; color: var(--mu); max-width: 72ch }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px }
+.tabs a { color: var(--fg2); text-decoration: none; border: 1px solid var(--line2); border-radius: 99px; padding: 6px 14px; font-weight: 600; font-size: 13px }
+.tabs a:hover { background: var(--s2) }
+.idea h2 { margin: 0 0 4px; font-size: 24px; letter-spacing: -.02em; display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
+.idea h2 .tag { font: 700 11px var(--mono); padding: 3px 8px; border-radius: 99px; border: 1px solid var(--line2); color: var(--mu) }
+.idea h2 .tag.pri { color: var(--up); border-color: rgba(59,227,143,.4) }
+.sub { color: var(--mu); margin: 0 0 20px; max-width: 78ch }
+.board { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; align-items: start }
+@media (max-width: 980px) { .board { grid-template-columns: minmax(0, 1fr) } }
+.frame { border: 1px solid var(--line2); border-radius: 18px; background: var(--s1); overflow: hidden; min-width: 0 }
+.frame .bar { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--line); align-items: center; color: var(--fa); font: 600 11.5px var(--mono); min-width: 0 }
+.frame .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line2); flex: none }
+.frame .bar .url { margin-left: 8px; padding: 3px 10px; border-radius: 8px; background: var(--s2); color: var(--fg2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0 }
+.frame .bar .url b { color: var(--up); font-weight: 600 }
+.frame .body { padding: 20px }
+.phone { width: 100%; max-width: 340px; margin: 0 auto; border: 1px solid var(--line2); border-radius: 42px; padding: 11px; background: #050506; box-shadow: 0 30px 80px rgba(0,0,0,.7) }
+.phone .scr { border-radius: 32px; overflow: hidden; background: #000; height: 640px; position: relative; display: flex; flex-direction: column; padding: 48px 14px 14px; gap: 12px }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-top: 18px }
+.note { border-left: 2px solid var(--up); padding: 2px 0 2px 12px; color: var(--fg2); font-size: 13px }
+.note b { color: var(--fg); display: block; font-size: 13.5px }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums }
+.up { color: var(--up) } .dn { color: var(--dn) } .mu { color: var(--mu) }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line2); background: var(--s2); color: var(--fg); font: 700 13px var(--sans); cursor: pointer; white-space: nowrap }
+.btn.pri { background: var(--fg); color: #000; border-color: var(--fg) }
+.btn.x { background: var(--fg); color: #000 }
+.btn.green { background: var(--up); color: #04140b; border-color: var(--up) }
+.btn:focus-visible, .seg button:focus-visible { outline: 2px solid var(--up); outline-offset: 2px }
+
+/* idea 1: clean links + X preview */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px }
+@media (max-width: 640px) { .compare { grid-template-columns: 1fr } }
+.urlbox { border: 1px solid var(--line2); border-radius: 12px; padding: 12px; background: var(--s2); font: 600 12.5px var(--mono); min-width: 0; overflow-wrap: anywhere }
+.urlbox small { display: block; font: 700 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px }
+.urlbox.old small { color: var(--dn) } .urlbox.new small { color: var(--up) }
+.urlbox .hash { color: var(--dn); background: rgba(255,93,108,.15); border-radius: 4px; padding: 0 3px }
+.tweet { border: 1px solid #2F3336; border-radius: 16px; padding: 14px; background: #000; max-width: 560px }
+.tweet .who { display: flex; gap: 10px; align-items: center } .tweet .pfp { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #3BE38F, #1D9BF0) }
+.tweet .who b { font-size: 14px } .tweet .who span { color: #71767B; font-size: 13px }
+.tweet p { margin: 8px 0 10px; font-size: 14.5px }
+.og { border: 1px solid #2F3336; border-radius: 14px; overflow: hidden }
+.og .img { aspect-ratio: 1200 / 630; max-width: 100%; background: radial-gradient(120% 120% at 0% 0%, rgba(59,227,143,.25), transparent 50%), radial-gradient(120% 120% at 100% 100%, rgba(29,155,240,.2), transparent 50%), #07080A; padding: 6%; display: flex; flex-direction: column; justify-content: space-between }
+.og .row { display: flex; align-items: center; gap: 14px }
+.og .logo { width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #5a6b8a, #1a1f2b); display: grid; place-items: center; font: 800 26px var(--sans); color: #fff; flex: none }
+.og .nm { font-size: clamp(18px, 3.2vw, 28px); font-weight: 800; letter-spacing: -.02em } .og .nm small { display: block; font: 600 13px var(--mono); color: var(--mu) }
+.og .big { font: 700 clamp(26px, 6vw, 50px) var(--mono); letter-spacing: -.02em }
+.og .chips { display: flex; gap: 8px; flex-wrap: wrap }
+.og .chip { font: 700 12px var(--mono); padding: 4px 10px; border-radius: 99px; background: rgba(255,255,255,.07) }
+.og .brand { font: 800 15px var(--sans); color: var(--mu) } .og .brand b { color: var(--fg) }
+.og .cap { padding: 8px 12px; color: #71767B; font-size: 13px; border-top: 1px solid #2F3336 }
+
+/* idea 2: share card */
+.share-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; align-items: start }
+@media (max-width: 760px) { .share-wrap { grid-template-columns: minmax(0, 1fr) } }
+.card { aspect-ratio: 4 / 5; max-width: 100%; border-radius: 22px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; border: 1px solid var(--line2) }
+.card.gain { background: radial-gradient(120% 90% at 100% 0%, rgba(59,227,143,.35), transparent 55%), #050806 }
+.card.whale { background: radial-gradient(120% 90% at 100% 0%, rgba(251,191,36,.3), transparent 55%), #080703 }
+.card.ath { background: radial-gradient(120% 90% at 100% 0%, rgba(167,139,250,.35), transparent 55%), #06050a }
+.card .t { font: 700 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--fg2) }
+.card .huge { font: 800 clamp(44px, 9vw, 76px) var(--mono); letter-spacing: -.04em; line-height: .95 }
+.card .line { display: flex; justify-content: space-between; gap: 10px; font: 600 13px var(--mono); color: var(--fg2); border-top: 1px dashed rgba(255,255,255,.15); padding-top: 12px }
+.card .foot { display: flex; justify-content: space-between; align-items: center; font-weight: 800 }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: var(--s2); border: 1px solid var(--line2); border-radius: 12px; padding: 3px }
+.seg button { height: 34px; border: 0; border-radius: 9px; background: transparent; color: var(--mu); font: 700 12.5px var(--sans); cursor: pointer }
+.seg button[aria-pressed=true] { background: var(--s3); color: var(--fg) }
+.side { display: flex; flex-direction: column; gap: 10px }
+.side label { color: var(--mu); font-size: 12px }
+
+/* idea 3: watch wallets */
+.wl { display: flex; flex-direction: column; gap: 10px }
+.wrow { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto auto; gap: 12px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--s2) }
+.av { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-size: 18px }
+.wrow b { font-size: 13.5px } .wrow small { display: block; color: var(--mu); font-size: 12px }
+.lab { font: 700 11px var(--sans); padding: 3px 8px; border-radius: 99px; border: 1px solid currentColor; white-space: nowrap }
+.ping { display: flex; gap: 12px; align-items: center; padding: 12px; border-radius: 16px; border: 1px solid rgba(251,191,36,.4); background: linear-gradient(90deg, rgba(251,191,36,.12), transparent), var(--s1) }
+.ping b { font-size: 13.5px } .ping small { display: block; color: var(--mu); font-size: 12px }
+.tgl { appearance: none; -webkit-appearance: none; width: 38px; height: 22px; border-radius: 99px; background: var(--line2); position: relative; cursor: pointer; margin: 0 }
+.tgl::after { content: ""; position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform .15s }
+.tgl:checked { background: var(--up) } .tgl:checked::after { transform: translateX(16px) }
+
+/* idea 4: $ORBIT hub */
+.hub { border-radius: 22px; padding: 22px; border: 1px solid rgba(29,155,240,.45); background: radial-gradient(100% 140% at 0% 0%, rgba(29,155,240,.25), transparent 55%), radial-gradient(100% 140% at 100% 100%, rgba(59,227,143,.15), transparent 55%), #05070a; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: center }
+@media (max-width: 760px) { .hub { grid-template-columns: minmax(0, 1fr) } }
+.hub h3 { margin: 6px 0 4px; font-size: clamp(22px, 3.4vw, 32px); letter-spacing: -.03em; display: flex; align-items: center; gap: 8px }
+.hub p { margin: 0; color: var(--fg2); max-width: 52ch }
+.count { display: flex; gap: 8px }
+.count div { min-width: 64px; text-align: center; padding: 10px 6px; border-radius: 14px; background: rgba(255,255,255,.05); border: 1px solid var(--line2) }
+.count b { display: block; font: 700 26px var(--mono) } .count small { color: var(--mu); font-size: 11px }
+.ca { display: flex; gap: 8px; align-items: center; margin-top: 14px; flex-wrap: wrap }
+.ca code { font: 600 12.5px var(--mono); padding: 8px 10px; border-radius: 10px; background: var(--s2); border: 1px dashed var(--line2); color: var(--mu) }
+.steps3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 16px }
+@media (max-width: 640px) { .steps3 { grid-template-columns: 1fr } }
+.steps3 div { border: 1px solid var(--line); border-radius: 14px; padding: 12px; background: var(--s1) } .steps3 b { display: block; font-size: 13.5px } .steps3 span { color: var(--mu); font-size: 12.5px }
+.vchk { width: 22px; height: 22px; flex: none }
+@media (prefers-reduced-motion: reduce) { .tgl::after { transition: none } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Antes de lanzar: 4 ideas</h1>
+    <p>La primera resuelve lo del <b class="mono">#</b> en la dirección y además hace que los links de Orbit se vean como tarjetas en X. Las otras tres hacen que la gente comparta Orbit y vuelva. Las partes con botones funcionan: pruébalas.</p>
+    <nav class="tabs"><a href="#links">1 · Links limpios</a><a href="#share">2 · Compartir en X</a><a href="#watch">3 · Seguir wallets</a><a href="#hub">4 · Lanzamiento $ORBIT</a></nav>
+  </header>
+
+  <!-- 1 -->
+  <section class="idea" id="links">
+    <h2>1 · Links sin # y con vista previa en X <span class="tag pri">Recomendado antes de lanzar</span></h2>
+    <p class="sub">Hoy cada link lleva <span class="mono">/#/</span>: así la app sabe qué pantalla abrir sin pedirle nada al servidor. Funciona, pero se ve raro y X no puede mostrar una tarjeta del token, porque nunca ve lo que va después del #. Con links limpios, el servidor sabe qué token es y le da a X su imagen.</p>
+    <div class="frame">
+      <div class="bar"><i></i><i></i><i></i><span class="url">orbiteth.sbs<b>/token/0x5aba…a596</b></span></div>
+      <div class="body">
+        <div class="compare">
+          <div class="urlbox old"><small>Hoy</small>orbiteth.sbs/<span class="hash">#/</span>token/0x5aba…a596</div>
+          <div class="urlbox new"><small>Después</small>orbiteth.sbs/token/0x5aba…a596</div>
+        </div>
+        <div class="tweet">
+          <div class="who"><span class="pfp"></span><div><b>degen.eth</b> <span>@degen · 2m</span></div></div>
+          <p>$TENDER just graduated and keeps going 👀</p>
+          <div class="og">
+            <div class="img">
+              <div class="row"><span class="logo">T</span><div class="nm">Tender<small>$TENDER · Graduated</small></div></div>
+              <div><div class="big">$57.7k</div><div class="chips"><span class="chip up">+1,801% 24h</span><span class="chip">Vol $25.0k</span><span class="chip">64 wallets</span></div></div>
+              <div class="brand"><b>orbit</b> · live on pons</div>
+            </div>
+            <div class="cap">orbiteth.sbs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="notes">
+      <div class="note"><b>Los links viejos siguen sirviendo</b>Si alguien abre un link con #, Orbit lo lleva solo a la dirección nueva.</div>
+      <div class="note"><b>Tarjeta para cada token</b>La imagen se arma en el servidor con el logo, el market cap y el cambio, y se actualiza cada pocos minutos.</div>
+      <div class="note"><b>También para Correo y perfiles</b>«Escríbeme en Orbit» con tu avatar y tu check, listo para la bio de X.</div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="idea" id="share">
+    <h2>2 · Compartir en X con un toque <span class="tag">Flex cards</span></h2>
+    <p class="sub">Un botón «Share» en el token, el portafolio y las big buys arma una imagen lista para X. Cada post lleva el link de Orbit: es publicidad gratis hecha por los usuarios.</p>
+    <div class="board">
+      <div class="frame">
+        <div class="bar"><i></i><i></i><i></i><span class="url">orbiteth.sbs<b>/portfolio</b></span></div>
+        <div class="body share-wrap">
+          <div class="card gain" id="card">
+            <div><div class="t" id="cT">My $TENDER trade</div></div>
+            <div><div class="huge up" id="cBig">+412%</div><div class="mu mono" id="cSub" style="margin-top:6px">bought at $11.2k mcap · now $57.7k</div></div>
+            <div class="line"><span id="cL1">In 0.04 ETH</span><span id="cL2">Now 0.205 ETH</span></div>
+            <div class="foot"><span>orbit</span><span class="mono mu" style="font-size:12px">orbiteth.sbs</span></div>
+          </div>
+          <div class="side">
+            <label>Style</label>
+            <div class="seg" role="group" aria-label="Card style"><button type="button" aria-pressed="true" data-k="gain">My gain</button><button type="button" aria-pressed="false" data-k="whale">Whale</button><button type="button" aria-pressed="false" data-k="ath">ATH</button></div>
+            <label style="margin-top:6px">Show amounts</label>
+            <label style="display:flex;justify-content:space-between;align-items:center;color:var(--fg2);font-size:13px">ETH amounts<input class="tgl" type="checkbox" id="amt" checked></label>
+            <button class="btn x" type="button" style="margin-top:8px">Post on X</button>
+            <button class="btn" type="button">Save image</button>
+            <p class="mu" style="font-size:12px;margin:0">Nothing is posted without you. You can hide the amounts.</p>
+          </div>
+        </div>
+      </div>
+      <div class="phone"><div class="scr">
+        <div style="font:800 26px var(--sans);letter-spacing:-.03em">Share</div>
+        <div class="card whale" style="aspect-ratio:auto;height:330px">
+          <div class="t">Whale buy</div>
+          <div><div class="huge" style="color:var(--sun);font-size:56px">$1,240</div><div class="mu mono" style="margin-top:6px">in $TENDER · 2m ago</div></div>
+          <div class="foot"><span>orbit</span><span class="mono mu" style="font-size:11px">orbiteth.sbs</span></div>
+        </div>
+        <button class="btn x" type="button" style="height:46px;border-radius:14px">Post on X</button>
+        <button class="btn" type="button" style="height:46px;border-radius:14px">Share…</button>
+      </div></div>
+    </div>
+    <div class="notes">
+      <div class="note"><b>Tres estilos</b>Tu ganancia en un token, una compra de ballena, o un token en su máximo histórico.</div>
+      <div class="note"><b>Privacidad</b>Un interruptor oculta los montos en ETH y deja solo el porcentaje.</div>
+      <div class="note"><b>En el celular</b>Usa el menú de compartir del teléfono: X, Telegram, WhatsApp o guardar la imagen.</div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="idea" id="watch">
+    <h2>3 · Seguir wallets <span class="tag">Avísame cuando esta ballena compre</span></h2>
+    <p class="sub">Desde cualquier perfil, una estrella para seguir esa wallet. Cuando compra o vende, te llega una alerta. Encaja con las etiquetas que ya tenemos (sniper, ballena, diamond hands).</p>
+    <div class="board">
+      <div class="frame">
+        <div class="bar"><i></i><i></i><i></i><span class="url">orbiteth.sbs<b>/alerts</b></span></div>
+        <div class="body wl">
+          <div class="ping"><span class="av" style="background:rgba(251,191,36,.15)">🐋</span><div><b>FondGlassThrush bought $1,240 of $TENDER</b><small>A wallet you follow · 2m ago</small></div><span class="sp"></span></div>
+          <div class="wrow"><span class="av" style="background:#1d2a22">🦎</span><div><b>FondGlassThrush</b><small>0x7520…2083 · 41 trades this week</small></div><span class="lab" style="color:var(--sky)">Whale</span><input class="tgl" type="checkbox" checked aria-label="Alerts for FondGlassThrush"></div>
+          <div class="wrow"><span class="av" style="background:#2a2213">🦊</span><div><b>HiddenSilverKite</b><small>0x91c2…be10 · first in 3 of the last 5 runners</small></div><span class="lab" style="color:var(--sun)">Sniper</span><input class="tgl" type="checkbox" checked aria-label="Alerts for HiddenSilverKite"></div>
+          <div class="wrow"><span class="av" style="background:#1d1a2a">🦉</span><div><b>CivilHoneyOriole</b><small>0x3fa0…77c1 · holding 9 tokens, never sold</small></div><span class="lab" style="color:var(--up)">Diamond hands</span><input class="tgl" type="checkbox" aria-label="Alerts for CivilHoneyOriole"></div>
+        </div>
+      </div>
+      <div class="phone"><div class="scr">
+        <div style="font:800 26px var(--sans);letter-spacing:-.03em">Following</div>
+        <div class="ping"><span class="av" style="background:rgba(251,191,36,.15)">🐋</span><div><b>FondGlassThrush bought $1,240</b><small>$TENDER · 2m</small></div></div>
+        <div class="wrow" style="grid-template-columns:38px minmax(0,1fr) auto"><span class="av" style="background:#1d2a22">🦎</span><div><b>FondGlassThrush</b><small>Whale · 41 trades</small></div><input class="tgl" type="checkbox" checked aria-label="Alerts"></div>
+        <div class="wrow" style="grid-template-columns:38px minmax(0,1fr) auto"><span class="av" style="background:#2a2213">🦊</span><div><b>HiddenSilverKite</b><small>Sniper · 3 of 5 runners</small></div><input class="tgl" type="checkbox" checked aria-label="Alerts"></div>
+        <button class="btn" type="button" style="height:44px;border-radius:14px;margin-top:auto">+ Follow a wallet</button>
+      </div></div>
+    </div>
+    <div class="notes">
+      <div class="note"><b>Con Orbit cerrado</b>Usa el mismo sistema de avisos del Correo, así que llega aunque la app no esté abierta.</div>
+      <div class="note"><b>Top wallets</b>Una lista sugerida con las wallets que más ganaron esta semana, para seguirlas de una.</div>
+      <div class="note"><b>Sin cuenta</b>Se guarda en tu dispositivo. Con la wallet conectada se sincroniza entre el celular y la computadora.</div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="idea" id="hub">
+    <h2>4 · Lanzamiento de $ORBIT <span class="tag">Cuando tengas el coin</span></h2>
+    <p class="sub">Antes del lanzamiento, una tarjeta con cuenta regresiva y «Avísame». El día del lanzamiento la misma tarjeta muestra el contrato verificado y «Buy on pons». Ya dejamos listo el check azul y el botón: esto es la vitrina.</p>
+    <div class="hub">
+      <div>
+        <span class="mono" style="font-size:11px;letter-spacing:.1em;color:var(--x)">COMING TO PONS</span>
+        <h3><svg class="vchk" viewBox="0 0 24 24" aria-hidden="true"><path fill="#1D9BF0" d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34z"/><path fill="#fff" d="M10.54 16.2 6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36z"/></svg>$ORBIT</h3>
+        <p>The coin of the app that shows all of pons. Only the contract below is real: anything else is fake.</p>
+        <div class="ca"><code>Contract appears here at launch</code><button class="btn" type="button" disabled>Copy</button></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:stretch">
+        <div class="count" aria-label="Countdown"><div><b id="d">02</b><small>days</small></div><div><b id="h">14</b><small>hours</small></div><div><b id="m">37</b><small>min</small></div></div>
+        <button class="btn green" type="button" id="notify" style="height:44px">Notify me at launch</button>
+      </div>
+    </div>
+    <div class="steps3">
+      <div><b>Antes</b><span>Cuenta regresiva y «Avísame», con el mismo aviso que funciona con la app cerrada.</span></div>
+      <div><b>El día</b><span>Contrato verificado, botón de copiar y «Buy on pons». Aviso a todos los que lo pidieron.</span></div>
+      <div><b>Después</b><span>Holders, market cap y «Comparte que tienes $ORBIT» con la tarjeta de la idea 2.</span></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const CARDS = {
+  gain: { cls: 'gain', t: 'My $TENDER trade', big: '+412%', bigCls: 'up', sub: 'bought at $11.2k mcap · now $57.7k', l1: 'In 0.04 ETH', l2: 'Now 0.205 ETH' },
+  whale: { cls: 'whale', t: 'Whale buy', big: '$1,240', bigCls: '', sub: 'in $TENDER · FondGlassThrush', l1: '0.72 ETH', l2: '2m ago' },
+  ath: { cls: 'ath', t: '$TENDER all-time high', big: '$106k', bigCls: '', sub: 'market cap · graduated 3h ago', l1: '64 wallets', l2: 'Vol $25.0k' },
+}
+let style = 'gain'
+const amt = document.getElementById('amt')
+function draw() {
+  const c = CARDS[style], card = document.getElementById('card')
+  card.className = 'card ' + c.cls
+  document.getElementById('cT').textContent = c.t
+  const big = document.getElementById('cBig'); big.textContent = c.big; big.className = 'huge ' + c.bigCls
+  big.style.color = style === 'whale' ? 'var(--sun)' : style === 'ath' ? 'var(--vio)' : ''
+  document.getElementById('cSub').textContent = c.sub
+  const show = amt.checked
+  document.getElementById('cL1').textContent = show ? c.l1 : '•••'
+  document.getElementById('cL2').textContent = show ? c.l2 : '•••'
+}
+document.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => { style = b.dataset.k; document.querySelectorAll('.seg button').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); draw() }))
+amt.addEventListener('change', draw)
+const n = document.getElementById('notify')
+n.addEventListener('click', () => { n.textContent = "You're on the list ✓"; n.disabled = true })
+</script>

@@ -1,0 +1,74 @@
+/* Token page — Orbit 3 mockup look. Scoped under .tok so nothing leaks into other pages. */
+.r56 { width: 56px; height: 56px }
+.tok > .fmain { padding: 22px 26px 44px !important; gap: 18px !important }
+.tok .fh { display: flex; align-items: center; gap: 16px; flex-wrap: wrap }
+.tok .fh h2 { margin: 0; font-size: 25px; letter-spacing: -.03em }
+.tok .tk-back { flex: none }
+.tok .tk-price { margin-left: 6px }
+.tok .pxbig { font: 600 29px var(--mono); letter-spacing: -.03em; line-height: 1.1 }
+.tok .tk-chg { font-size: 12.5px; margin-top: 3px }
+.tok .fh .btn[aria-pressed='true'] { color: var(--sun); border-color: rgba(251,191,36,.4); background: var(--sun-s) }
+.tok .fh .btn span { font-size: 14px; line-height: 1 }
+
+.tok .chartwrap { border: 1px solid var(--line); border-radius: 18px; background: var(--bg2); overflow: hidden }
+.tok .charttools { display: flex; align-items: center; gap: 10px; padding: 12px 14px 0; flex-wrap: wrap }
+.tok .charttools .tier { height: 22px; gap: 4px }
+.tok .gradbar { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; margin-top: 4px }
+.tok .gradbar .bar { flex: 1; height: 10px; border-radius: 10px; background: var(--s3); overflow: hidden }
+.tok .gradbar .bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--mu), var(--buy)) }
+.tok .gradbar .mono { font-size: 12px }
+
+.tok .st6 { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--bg2) }
+.tok .st6 > div { padding: 13px 14px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 3px; min-width: 0 }
+.tok .st6 > div:last-child { border-right: 0 }
+.tok .st6 > div > span { font-size: 11px; color: var(--mu); display: flex; gap: 6px; align-items: center }
+.tok .st6 b { font: 600 15.5px var(--mono); white-space: nowrap }
+.tok .st6 small { font-size: 10.5px; color: var(--mu) }
+.tok .st6 .earn { background: linear-gradient(135deg, var(--sun-s), transparent) }
+.tok .st6 .earn b { color: var(--sun) }
+
+.tok .creator { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--line2); border-radius: 16px; background: linear-gradient(90deg, #121212, var(--bg2) 70%) }
+.tok .creator .n { flex: 1; min-width: 0 }
+.tok .creator .n > b { font-size: 14px }
+.tok .creator .n > div { font-size: 12px; color: var(--mu); margin-top: 2px }
+
+.tok .tpanel { border: 1px solid var(--line); border-radius: 18px; background: var(--bg2); overflow: hidden }
+.tok .ftabs { min-height: 48px }
+.tok .ftabs > button { height: 48px }
+
+@media (max-width: 1240px) { .tok .st6 { grid-template-columns: repeat(3, minmax(0, 1fr)) } .tok .st6 > div:nth-child(3n) { border-right: 0 } .tok .st6 > div:nth-child(-n+3) { border-bottom: 1px solid var(--line) } }
+@media (max-width: 760px) {
+  .tok > .fmain { padding: 16px 16px 32px !important }
+  .tok .st6 { grid-template-columns: repeat(2, minmax(0, 1fr)) } .tok .st6 > div { border-right: 0; border-bottom: 1px solid var(--line) }
+  .tok .creator { flex-wrap: wrap } .tok .creator .btn { width: 100% }
+  .tok .pxbig { font-size: 23px }
+}
+
+/* ===== Orbit token page: chart and activity on the left, a sticky panel with curve, stats and creator on the right ===== */
+.tok .fh h2 { font: 600 24px/1.15 var(--display); letter-spacing: -.035em; display: flex; align-items: center; gap: 8px }
+.tok .pxbig { font-weight: 500 }
+.tok .r56 { border-radius: 16px; box-shadow: 0 0 0 1px var(--line2) }
+.tk-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start }
+.tk-left { display: flex; flex-direction: column; gap: 18px; min-width: 0 }
+.tk-rail { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 0; min-width: 0 }
+.tok .chartwrap, .tok .tpanel, .tk-card { border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,.018), transparent 120px), var(--bg2); border: 1px solid var(--line) }
+/* curve card */
+.tok .tk-rail .gradbar { margin: 0; padding: 16px; display: grid; grid-template-columns: auto 1fr; gap: 10px 10px; align-items: center; border: 1px solid var(--line); border-radius: 18px }
+.tok .tk-rail .gradbar .bar { grid-column: 1 / -1; height: 8px; order: 3 }
+.tok .tk-rail .gradbar .bar i { background: linear-gradient(90deg, #1D9BF0, #7DD3FC); box-shadow: 0 0 14px rgba(29,155,240,.6) }
+.tok .tk-rail .gradbar .mono { grid-column: 1 / -1; order: 4; color: var(--mu) }
+.tok .tk-rail .gradbar > span:not(.mono):not(.tag) { font: 500 14px var(--display) !important }
+/* stats: a vertical list instead of a strip */
+.tok .tk-rail .st6 { display: flex; flex-direction: column; border-radius: 18px; background: var(--bg2); border-color: var(--line) }
+.tok .tk-rail .st6 > div { flex-direction: row; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 2px 10px; padding: 12px 16px; border-right: 0 !important; border-bottom: 1px solid var(--line) !important }
+.tok .tk-rail .st6 > div:last-child { border-bottom: 0 !important }
+.tok .tk-rail .st6 > div > span { font-size: 12.5px }
+.tok .tk-rail .st6 b { font-weight: 500; font-size: 14.5px }
+.tok .tk-rail .st6 small { flex-basis: 100%; text-align: right }
+.tok .tk-rail .st6 .earn { background: linear-gradient(90deg, var(--sun-s), transparent) }
+/* creator: a stacked card */
+.tok .tk-rail .creator { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px; border-color: var(--line); background: linear-gradient(160deg, var(--blue-s), transparent 60%), var(--bg2) }
+.tok .tk-rail .creator .btn { width: 100% }
+.tok .ftabs > button[aria-pressed='true'] { color: var(--fg); box-shadow: inset 0 -2px 0 var(--blue) }
+@media (max-width: 1100px) { .tk-grid { grid-template-columns: minmax(0, 1fr) } .tk-rail { position: static } }
+.st6 b .up { color: var(--buy) } .st6 b .dn { color: var(--sell) }

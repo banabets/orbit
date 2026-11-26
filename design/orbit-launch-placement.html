@@ -1,0 +1,228 @@
+<title>$ORBIT Launch Placement</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<style>
+/* Layout: the real Orbit screens (desktop Radar, desktop token page, phone Radar, phone token) with every $ORBIT spot numbered. Dark-only like the app. */
+:root {
+  --bg: #000; --s1: #0B0B0D; --s2: #131316; --s3: #1B1B1F; --line: #1F1F24; --line2: #2A2A30;
+  --fg: #F4F4F6; --fg2: #C9C9CE; --mu: #8A8A93; --fa: #5C5C66;
+  --up: #3BE38F; --dn: #FF5D6C; --sun: #FBBF24; --x: #1D9BF0;
+  --sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font: 14px/1.5 var(--sans); padding-block: 36px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.wrap { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px }
+h1 { font-size: clamp(26px, 4vw, 38px); letter-spacing: -.03em; margin: 0 0 8px; text-wrap: balance }
+.lead { margin: 0; color: var(--mu); max-width: 74ch }
+h2 { font-size: 21px; margin: 0 0 14px; letter-spacing: -.02em }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums }
+.up { color: var(--up) } .mu { color: var(--mu) }
+.n { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--x); color: #fff; font: 800 12px var(--sans); flex: none; box-shadow: 0 0 0 3px #000 }
+.pin { position: absolute; z-index: 3 }
+.frame { border: 1px solid var(--line2); border-radius: 18px; background: #000; overflow: hidden; min-width: 0 }
+.frame .bar { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--line); align-items: center; color: var(--fa); font: 600 11.5px var(--mono) }
+.frame .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line2) }
+.frame .bar span { margin-left: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.scroll-x { overflow-x: auto }
+.desk { min-width: 880px; display: grid; grid-template-columns: 190px minmax(0, 1fr); min-height: 560px }
+.side { border-right: 1px solid var(--line); padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; position: relative }
+.side .logo { font: 800 19px var(--sans); margin-bottom: 12px } .side .logo b { color: var(--up) }
+.side a { color: var(--fg2); font-size: 13px; padding: 7px 10px; border-radius: 9px; text-decoration: none }
+.side a.on { background: var(--s2); color: var(--fg); font-weight: 700 }
+.sidecard { margin-top: auto; border: 1px solid rgba(29,155,240,.45); border-radius: 14px; padding: 12px; background: linear-gradient(160deg, rgba(29,155,240,.2), transparent 70%), var(--s1); position: relative }
+.sidecard b { display: flex; align-items: center; gap: 6px; font-size: 14px } .sidecard small { display: block; color: var(--mu); font-size: 11.5px; margin: 4px 0 8px }
+.main { display: flex; flex-direction: column; min-width: 0 }
+.top { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--line); position: relative }
+.search { flex: 1; max-width: 300px; height: 34px; border-radius: 10px; border: 1px solid var(--line2); background: var(--s2); color: var(--fa); font-size: 12.5px; display: flex; align-items: center; padding: 0 12px }
+.buy { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 14px; border-radius: 10px; background: var(--x); color: #fff; font-weight: 800; font-size: 13px; box-shadow: 0 6px 20px rgba(29,155,240,.35); white-space: nowrap; position: relative }
+.tick { margin-left: auto; font: 700 13px var(--mono); color: var(--fg2) }
+.pill { height: 34px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--line2); display: grid; place-items: center; font-size: 12.5px; font-weight: 700 }
+.content { padding: 16px; display: flex; flex-direction: column; gap: 14px }
+.hero { position: relative; border-radius: 18px; padding: 18px 20px; border: 1px solid rgba(29,155,240,.45); background: radial-gradient(90% 160% at 0% 0%, rgba(29,155,240,.28), transparent 55%), radial-gradient(80% 140% at 100% 100%, rgba(59,227,143,.16), transparent 55%), #05070a; display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 16px; align-items: center }
+.coin { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 35% 30%, #4bf0a2, #0e6b45 70%); font: 800 24px var(--sans); color: #04140b; box-shadow: 0 0 0 3px rgba(59,227,143,.25) }
+.hero h3 { margin: 0; font-size: 22px; display: flex; align-items: center; gap: 7px; letter-spacing: -.02em }
+.hero p { margin: 2px 0 0; color: var(--fg2); font-size: 13px }
+.hero .stats { display: flex; gap: 14px; margin-top: 8px; font: 600 12.5px var(--mono); color: var(--fg2); flex-wrap: wrap }
+.hero .act { display: flex; flex-direction: column; gap: 8px; align-items: stretch }
+.ca { display: flex; align-items: center; gap: 6px; font: 600 11.5px var(--mono); color: var(--mu); border: 1px dashed var(--line2); border-radius: 9px; padding: 6px 8px }
+.ca button { border: 0; background: var(--s3); color: var(--fg); border-radius: 6px; font: 700 11px var(--sans); padding: 3px 8px; cursor: pointer }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 36px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line2); background: var(--s2); color: var(--fg); font: 700 13px var(--sans); cursor: pointer; white-space: nowrap }
+.btn.blue { background: var(--x); border-color: var(--x); color: #fff }
+.btn.green { background: var(--up); border-color: var(--up); color: #04140b }
+.btn:focus-visible, .ca button:focus-visible { outline: 2px solid #fff; outline-offset: 2px }
+.stories { display: flex; gap: 12px; overflow: hidden }
+.story { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 66px; flex: none; position: relative }
+.story .ring { width: 56px; height: 56px; border-radius: 50%; padding: 3px; background: conic-gradient(var(--up), var(--x), var(--sun), var(--up)) }
+.story .ring.blue { background: var(--x) }
+.story .ring span { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #1b1b1f; border: 2px solid #000; font: 800 16px var(--sans) }
+.story b { font-size: 11.5px; display: flex; align-items: center; gap: 2px } .story small { font: 600 10.5px var(--mono) }
+.table { border: 1px solid var(--line); border-radius: 14px; overflow: hidden }
+.tr { display: grid; grid-template-columns: minmax(0, 1.6fr) 130px 90px 80px 70px; gap: 10px; align-items: center; padding: 10px 14px; border-top: 1px solid var(--line); font-size: 12.5px; position: relative }
+.tr.th { border-top: 0; color: var(--fa); font: 700 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase }
+.tr.me { background: linear-gradient(90deg, rgba(29,155,240,.12), transparent 60%) }
+.tok { display: flex; gap: 10px; align-items: center; min-width: 0 } .tok .lg { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--s3); font-weight: 800; flex: none }
+.tok b { display: flex; align-items: center; gap: 4px; font-size: 13px } .tok small { color: var(--mu); font-size: 11.5px }
+.bar2 { height: 6px; border-radius: 99px; background: var(--s3); overflow: hidden } .bar2 i { display: block; height: 100%; background: var(--up) }
+.vchk { width: 16px; height: 16px; flex: none }
+/* token page */
+.tk { padding: 16px; display: flex; flex-direction: column; gap: 14px }
+.tkhead { display: flex; align-items: center; gap: 14px; position: relative; flex-wrap: wrap }
+.tkhead h3 { margin: 0; font-size: 24px; display: flex; align-items: center; gap: 7px }
+.tkhead .px { font: 700 26px var(--mono) }
+.official { border-radius: 14px; padding: 12px 14px; border: 1px solid rgba(29,155,240,.45); background: rgba(29,155,240,.08); display: flex; align-items: center; gap: 12px; position: relative; flex-wrap: wrap }
+.official p { margin: 0; font-size: 13px; color: var(--fg2); flex: 1; min-width: 200px } .official b { color: var(--fg) }
+.chart { height: 190px; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(180deg, rgba(59,227,143,.12), transparent 70%), var(--s1); position: relative; overflow: hidden }
+.chart svg { position: absolute; inset: 0; width: 100%; height: 100% }
+/* phones */
+.phones { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px }
+.phone { width: 100%; max-width: 340px; margin: 0 auto; border: 1px solid var(--line2); border-radius: 42px; padding: 11px; background: #050506 }
+.phone .scr { border-radius: 32px; overflow: hidden; background: #000; height: 640px; position: relative; display: flex; flex-direction: column; gap: 10px; padding: 14px 12px }
+.mbar { display: flex; align-items: center; gap: 6px; padding-top: 26px }
+.mbar .logo { font: 800 16px var(--sans); margin-right: auto } .mbar .logo b { color: var(--up) }
+.mbar .ic { width: 32px; height: 32px; border-radius: 50%; background: var(--s2); display: grid; place-items: center; font-size: 13px }
+.mbar .eth { height: 32px; padding: 0 10px; border-radius: 99px; background: var(--s2); display: grid; place-items: center; font: 700 11.5px var(--mono) }
+.mbar .cn { height: 32px; padding: 0 12px; border-radius: 99px; background: #fff; color: #000; display: grid; place-items: center; font: 800 12px var(--sans) }
+.mcard { border-radius: 18px; padding: 12px; border: 1px solid rgba(29,155,240,.5); background: linear-gradient(90deg, rgba(29,155,240,.2), transparent 75%), #0B0B0D; display: flex; align-items: center; gap: 10px; position: relative }
+.mcard .coin { width: 44px; height: 44px; font-size: 18px }
+.mcard div { flex: 1; min-width: 0 } .mcard b { display: flex; align-items: center; gap: 5px; font-size: 15px } .mcard small { color: var(--mu); font-size: 11.5px; font-family: var(--mono) }
+.mcard em { font-style: normal; font-weight: 800; font-size: 12.5px; background: var(--x); color: #fff; border-radius: 11px; padding: 8px 11px }
+.mtabs { display: flex; gap: 6px } .mtabs span { height: 30px; padding: 0 12px; border-radius: 99px; border: 1px solid var(--line2); display: grid; place-items: center; font-size: 12px; font-weight: 700 } .mtabs span.on { background: #fff; color: #000 }
+.mtok { border-radius: 18px; padding: 12px; background: var(--s1); border: 1px solid var(--line); display: flex; gap: 10px; align-items: center; position: relative }
+.mtok.me { border-color: rgba(29,155,240,.5) }
+.mtok .lg { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--s3); font-weight: 800; flex: none }
+.mtok div { flex: 1; min-width: 0 } .mtok b { display: flex; align-items: center; gap: 4px; font-size: 14px } .mtok small { color: var(--mu); font-size: 11.5px }
+.mtok .r { text-align: right; font: 700 13px var(--mono) }
+.mhero { border-radius: 22px; padding: 16px; background: radial-gradient(120% 120% at 20% 0%, rgba(59,227,143,.3), transparent 60%), #05070a; position: relative }
+.mhero h4 { margin: 0; display: flex; align-items: center; gap: 6px; font-size: 20px }
+.mhero .big { font: 800 32px var(--mono); margin-top: 6px }
+.cta { margin-top: auto; height: 50px; border-radius: 16px; background: var(--up); color: #04140b; display: grid; place-items: center; font-weight: 800; font-size: 15px; position: relative }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px }
+.legend div { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line); border-radius: 14px; padding: 12px; background: var(--s1) }
+.legend b { display: block; font-size: 13.5px } .legend span { color: var(--mu); font-size: 12.5px }
+.phase { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px }
+.phase button { height: 34px; padding: 0 14px; border-radius: 99px; border: 1px solid var(--line2); background: transparent; color: var(--fg2); font: 700 12.5px var(--sans); cursor: pointer }
+.phase button[aria-pressed=true] { background: #fff; color: #000; border-color: #fff }
+[data-phase="soon"] .live-only { display: none } [data-phase="live"] .soon-only { display: none }
+</style>
+
+<div class="wrap" id="root" data-phase="live">
+  <header>
+    <h1>Dónde sale $ORBIT el día del lanzamiento</h1>
+    <p class="lead">Así se ve Orbit apenas pongamos el contrato. Los números azules marcan cada lugar donde aparece la moneda. Con los botones de abajo ves cómo luce antes del lanzamiento («Muy pronto») y después («En vivo»). Los precios son de ejemplo.</p>
+    <div class="phase" role="group" aria-label="Momento"><button type="button" data-p="soon" aria-pressed="false">Muy pronto (antes)</button><button type="button" data-p="live" aria-pressed="true">En vivo (después)</button></div>
+  </header>
+
+  <section>
+    <h2>Escritorio · Radar</h2>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><span>orbiteth.sbs</span></div>
+      <div class="scroll-x"><div class="desk">
+        <aside class="side">
+          <div class="logo">✕ <b>orbit</b></div>
+          <a class="on" href="#">Radar</a><a href="#">Mail</a><a href="#">Leaderboard</a><a href="#">Portfolio</a><a href="#">Alerts</a><a href="#">Docs</a>
+          <div class="sidecard"><span class="n pin" style="top:-10px;right:-8px">4</span>
+            <b><svg class="vchk" viewBox="0 0 24 24"><use href="#chk"/></svg>$ORBIT</b>
+            <small class="live-only">$412k · <span class="up">+38%</span></small><small class="soon-only">Launching on pons today</small>
+            <span class="btn blue live-only" style="width:100%;height:32px">Buy on pons</span><span class="btn soon-only" style="width:100%;height:32px">Notify me</span>
+          </div>
+        </aside>
+        <div class="main">
+          <div class="top"><div class="search">Search token, $ticker or 0x…</div>
+            <span class="buy live-only"><span class="n pin" style="top:-10px;left:-10px">1</span><svg class="vchk" viewBox="0 0 24 24"><use href="#chkw"/></svg>Buy $ORBIT</span>
+            <span class="buy soon-only" style="background:var(--s2);color:var(--fg);box-shadow:none;border:1px solid rgba(29,155,240,.5)"><span class="n pin" style="top:-10px;left:-10px">1</span>$ORBIT · today</span>
+            <span class="tick">Ξ $1,786</span><span class="pill">English</span><span class="pill">Connect wallet</span></div>
+          <div class="content">
+            <div class="hero"><span class="n pin" style="top:-10px;left:-10px">2</span>
+              <span class="coin">N</span>
+              <div><h3><svg class="vchk" viewBox="0 0 24 24" style="width:20px;height:20px"><use href="#chk"/></svg>$ORBIT <span class="mu" style="font-size:13px;font-weight:600">The official Orbit coin</span></h3>
+                <p class="live-only">Live on pons. Only this contract is real: anything else is fake.</p><p class="soon-only">Launching on pons today. The contract shows here the moment it is live.</p>
+                <div class="stats live-only"><span>MCap <b class="up">$412k</b></span><span>24h <b class="up">+38%</b></span><span>Curve <b>62%</b></span><span>Holders <b>318</b></span></div>
+              </div>
+              <div class="act">
+                <div class="ca live-only">0x7f3a…c91e<button type="button" class="copy">Copy</button></div>
+                <span class="btn blue live-only">Buy on pons ↗</span><span class="btn live-only">View on Orbit</span>
+                <span class="btn green soon-only">Notify me at launch</span>
+              </div>
+            </div>
+            <div class="stories">
+              <div class="story"><span class="n pin" style="top:-6px;left:-4px">3</span><span class="ring blue"><span style="background:radial-gradient(circle at 35% 30%,#4bf0a2,#0e6b45 70%);color:#04140b">N</span></span><b><svg class="vchk" viewBox="0 0 24 24" style="width:11px;height:11px"><use href="#chk"/></svg>ORBIT</b><small class="up">+38%</small></div>
+              <div class="story"><span class="ring"><span>F</span></span><b>FLA</b><small class="mu">-6.9%</small></div>
+              <div class="story"><span class="ring"><span>C</span></span><b>COPYCAT</b><small class="up">+50%</small></div>
+              <div class="story"><span class="ring"><span>$</span></span><b>FISSIP</b><small class="mu">-7.5%</small></div>
+              <div class="story"><span class="ring"><span>D</span></span><b>DCI</b><small class="up">+388%</small></div>
+              <div class="story"><span class="ring"><span>N</span></span><b>NEON</b><small class="mu">-9.0%</small></div>
+            </div>
+            <div class="table">
+              <div class="tr th"><span>Token</span><span>Curve</span><span>Market cap</span><span>Vol 1h</span><span>Change</span></div>
+              <div class="tr me live-only"><span class="n pin" style="top:10px;left:-11px">3</span><div class="tok"><span class="lg" style="background:radial-gradient(circle at 35% 30%,#4bf0a2,#0e6b45 70%);color:#04140b">N</span><div><b><svg class="vchk" viewBox="0 0 24 24"><use href="#chk"/></svg>Orbit</b><small>$ORBIT · 42m</small></div></div><div class="bar2"><i style="width:62%"></i></div><span class="mono">$412k</span><span class="mono">$38.2k</span><span class="mono up">+38%</span></div>
+              <div class="tr"><div class="tok"><span class="lg">S</span><div><b>Safemoon</b><small>$SAFEMOON · 1h</small></div></div><div class="bar2"><i style="width:4%"></i></div><span class="mono">$3.2k</span><span class="mono">$10.5k</span><span class="mono" style="color:var(--dn)">-42%</span></div>
+              <div class="tr"><div class="tok"><span class="lg">D</span><div><b>DacityInu</b><small>$DCI · 8m</small></div></div><div class="bar2"><i style="width:51%"></i></div><span class="mono">$15.0k</span><span class="mono">$7.0k</span><span class="mono up">+377%</span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Escritorio · página de $ORBIT</h2>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><span>orbiteth.sbs/token/0x7f3a…c91e</span></div>
+      <div class="tk">
+        <div class="tkhead"><span class="n pin" style="top:-8px;left:-8px">5</span><span class="coin">N</span><h3>Orbit <svg class="vchk" viewBox="0 0 24 24" style="width:22px;height:22px"><use href="#chk"/></svg></h3><span class="px up">$412k</span><span class="mu mono">+38% · 24h</span><span style="margin-left:auto;display:flex;gap:8px"><span class="btn">Alert</span><span class="btn">Follow</span><span class="btn" style="background:#fff;color:#000">Trade on pons ↗</span></span></div>
+        <div class="official"><span class="n pin" style="top:-10px;left:-10px">6</span><svg class="vchk" viewBox="0 0 24 24" style="width:24px;height:24px"><use href="#chk"/></svg><p><b>The official Orbit coin.</b> This is the only real contract. Orbit never asks you to send money or connect anywhere else.</p><div class="ca">0x7f3a…c91e<button type="button" class="copy">Copy</button></div></div>
+        <div class="chart"><svg viewBox="0 0 600 190" preserveAspectRatio="none"><path d="M0 170 L60 160 L110 150 L160 155 L210 120 L260 128 L310 96 L360 104 L410 70 L460 80 L510 44 L560 52 L600 30" fill="none" stroke="#3BE38F" stroke-width="3"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Celular</h2>
+    <div class="phones">
+      <div class="phone"><div class="scr">
+        <div class="mbar"><span class="logo">✕ <b>orbit</b></span><span class="ic">⌕</span><span class="eth">Ξ $1,786</span><span class="cn">Connect</span></div>
+        <div class="mcard"><span class="n pin" style="top:-9px;left:-8px">7</span><span class="coin">N</span><div><b><svg class="vchk" viewBox="0 0 24 24"><use href="#chk"/></svg>$ORBIT</b><small class="live-only">$412k · <span class="up">+38%</span> · official</small><small class="soon-only">Launching today on pons</small></div><em class="live-only">Buy</em><em class="soon-only" style="background:var(--up);color:#04140b">Notify me</em></div>
+        <div class="mtabs"><span class="on">🔥 Hot</span><span>New</span><span>Near grad</span><span>Graduated</span></div>
+        <div class="mtok me live-only"><span class="n pin" style="top:-9px;left:-8px">8</span><span class="lg" style="background:radial-gradient(circle at 35% 30%,#4bf0a2,#0e6b45 70%);color:#04140b">N</span><div><b><svg class="vchk" viewBox="0 0 24 24" style="width:14px;height:14px"><use href="#chk"/></svg>Orbit</b><small>$ORBIT · 42m · 62% to graduation</small></div><span class="r">$412k<br><small class="up">+38%</small></span></div>
+        <div class="mtok"><span class="lg">S</span><div><b>Safemoon</b><small>$SAFEMOON · 1h</small></div><span class="r">$3.2k<br><small style="color:var(--dn)">-42%</small></span></div>
+        <div class="mtok"><span class="lg">D</span><div><b>DacityInu</b><small>$DCI · 8m</small></div><span class="r">$15.0k<br><small class="up">+377%</small></span></div>
+      </div></div>
+      <div class="phone"><div class="scr">
+        <div class="mhero"><span class="n pin" style="top:-9px;left:-8px">9</span><h4>Orbit <svg class="vchk" viewBox="0 0 24 24" style="width:20px;height:20px"><use href="#chk"/></svg></h4><span class="mu mono" style="font-size:12px">$ORBIT · official coin</span><div class="big">$412k</div><span class="up mono" style="font-size:13px">+38% · 24h</span></div>
+        <div class="official" style="padding:10px 12px"><svg class="vchk" viewBox="0 0 24 24" style="width:20px;height:20px"><use href="#chk"/></svg><p style="font-size:12px;min-width:0">Only this contract is real.</p><div class="ca" style="width:100%;justify-content:space-between">0x7f3a…c91e<button type="button" class="copy">Copy</button></div></div>
+        <div class="chart" style="height:170px"><svg viewBox="0 0 300 170" preserveAspectRatio="none"><path d="M0 150 L40 140 L80 128 L120 132 L160 96 L200 100 L240 60 L270 66 L300 30" fill="none" stroke="#3BE38F" stroke-width="3"/></svg></div>
+        <div class="cta">Trade on pons</div>
+      </div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Qué es cada número</h2>
+    <div class="legend">
+      <div><span class="n">1</span><p style="margin:0"><b>Botón arriba</b><span>«Buy $ORBIT» azul en la barra de arriba, en todas las páginas de escritorio. Lleva a pons.</span></p></div>
+      <div><span class="n">2</span><p style="margin:0"><b>Tarjeta grande en el Radar</b><span>Lo primero que ves: market cap, cambio, curva, holders, contrato con «Copy» y «Buy on pons».</span></p></div>
+      <div><span class="n">3</span><p style="margin:0"><b>Historias y tabla</b><span>Primera historia con anillo azul y fila fijada arriba en la tabla, siempre con el check.</span></p></div>
+      <div><span class="n">4</span><p style="margin:0"><b>Menú lateral</b><span>Tarjeta pequeña abajo del menú, visible en todas las páginas.</span></p></div>
+      <div><span class="n">5</span><p style="margin:0"><b>Página del token</b><span>Nombre con el check azul grande.</span></p></div>
+      <div><span class="n">6</span><p style="margin:0"><b>Aviso «moneda oficial»</b><span>Recuadro que dice que es el único contrato real, para evitar copias falsas.</span></p></div>
+      <div><span class="n">7</span><p style="margin:0"><b>Celular: tarjeta en el Radar</b><span>Arriba de las pestañas, con «Buy». Ya está hecha: solo falta el contrato.</span></p></div>
+      <div><span class="n">8</span><p style="margin:0"><b>Celular: fijada en la lista</b><span>Primera en «Hot», con borde azul y el check.</span></p></div>
+      <div><span class="n">9</span><p style="margin:0"><b>Celular: página del token</b><span>Check azul, aviso de moneda oficial con «Copy» y el botón verde a pons.</span></p></div>
+    </div>
+  </section>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="chk" viewBox="0 0 24 24"><path fill="#1D9BF0" d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34z"/><path fill="#fff" d="M10.54 16.2 6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36z"/></symbol>
+    <symbol id="chkw" viewBox="0 0 24 24"><path fill="#fff" d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34z"/><path fill="#1D9BF0" d="M10.54 16.2 6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36z"/></symbol>
+  </defs>
+</svg>
+
+<script>
+document.querySelectorAll('.phase button').forEach((b) => b.addEventListener('click', () => {
+  document.getElementById('root').dataset.phase = b.dataset.p
+  document.querySelectorAll('.phase button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)))
+}))
+document.querySelectorAll('.copy').forEach((b) => b.addEventListener('click', () => { b.textContent = 'Copied ✓'; setTimeout(() => { b.textContent = 'Copy' }, 1400) }))
+</script>

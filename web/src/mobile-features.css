@@ -1,0 +1,52 @@
+/* Phone app: wallet labels, price alerts and the token story. Scoped under .mapp (phones only). */
+
+/* wallet labels */
+.m-labs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px }
+.m-labs.in { display: inline-flex; margin: 0 0 0 6px; vertical-align: middle }
+.m-lab { display: inline-flex; align-items: center; gap: 3px; height: 18px; padding: 0 6px; border-radius: 6px; font: 700 10px var(--font); white-space: nowrap; letter-spacing: 0 }
+.m-lab.g { background: rgba(59,227,143,.15); color: var(--m-buy) }
+.m-lab.y { background: rgba(255,197,61,.15); color: var(--m-sun) }
+.m-lab.r { background: rgba(255,93,108,.15); color: var(--m-sell) }
+.m-lab.v { background: rgba(167,139,250,.18); color: #C4B5FD }
+.m-lab.b { background: rgba(125,211,252,.15); color: var(--m-sky) }
+.mapp .m-trow b { white-space: normal }
+
+/* bell on the token header: lit when this token has a price alert */
+.mapp .m-icon.lit { background: rgba(255,197,61,.18); box-shadow: inset 0 0 0 1px rgba(255,197,61,.45) }
+
+/* sheets opened from inside a scrolling screen stay pinned to the viewport */
+.mapp .m-dim.fixed, .mapp .m-sheet.fixed { position: fixed }
+.m-seg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 3px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line2) }
+.mapp .m-seg2 button { height: 38px; border-radius: 11px; font-weight: 700; color: var(--m-mu); text-align: center }
+.mapp .m-seg2 button.on { background: var(--blue); color: #fff }
+.m-amount { display: flex; align-items: center; gap: 6px; height: 64px; padding: 0 16px; border-radius: 18px; background: var(--bg); border: 1px solid var(--line2) }
+.m-amount span { font: 800 26px var(--mono); color: var(--m-mu) }
+.m-amount input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: #fff; font: 800 30px var(--mono) !important; letter-spacing: -.04em }
+.m-amount:focus-within { border-color: #fff }
+.m-quick { display: flex; gap: 6px }
+.mapp .m-quick button { flex: 1; height: 36px; border-radius: 12px; border: 1px solid var(--m-line); font: 700 12.5px var(--mono); color: var(--m-fg2); text-align: center }
+.m-sheet p.okmsg { color: var(--m-buy) }
+.m-targets { display: flex; flex-wrap: wrap; gap: 6px }
+.m-targets > div { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 6px 0 12px; border-radius: 10px; background: var(--m-card2); font: 700 12.5px var(--mono) }
+.mapp .m-targets button, .mapp .m-x { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; color: var(--m-mu); flex: none }
+.mapp .r30 { width: 30px; height: 30px; font-size: 11px }
+.m-rule a.tx { color: inherit }
+
+/* token story */
+.m-tl { list-style: none; margin: 4px 16px 0 26px; padding: 2px 0 0 16px; border-left: 2px solid var(--s3); display: flex; flex-direction: column; gap: 14px }
+.m-tl li { position: relative; display: flex; flex-direction: column }
+.m-tl li i { position: absolute; left: -24px; top: 3px; width: 14px; height: 14px; border-radius: 50%; border: 3px solid #000 }
+.m-tl b { font-size: 14px }
+.m-tl small { color: var(--m-mu); font-size: 12px }
+.mapp .m-share { margin: 14px 16px 0; height: 46px; border-radius: 16px; background: var(--blue); color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px }
+
+.m-sheet p.m-hint { color: var(--m-fg2); background: var(--m-card2); border: 1px solid var(--m-line); border-radius: 14px; padding: 10px 12px; font-size: 13px }
+
+.m-me-acts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px }
+.mapp .m-me-acts .m-tab { margin: 0 }
+.mapp .m-disc { color: var(--m-sell); border-color: rgba(255,93,108,.4) }
+.m-me p.m-err { margin: 8px 0 0; color: var(--m-sell); font-size: 12.5px }
+
+/* unread mail count on the center tab */
+.mapp .m-nav .center { position: relative }
+.m-badge { position: absolute; top: -6px; right: -6px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: var(--m-sell); color: #fff; font: 800 11px var(--font); font-style: normal; display: grid; place-items: center; box-shadow: 0 0 0 2px #000 }

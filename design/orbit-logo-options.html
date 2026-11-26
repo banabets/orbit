@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Orbit · Logo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root { --bg: #000; --panel: #07080A; --line: #1A1C22; --mu: #8B8E98; --fg: #F5F6F8; --blue: #1D9BF0 }
+  * { box-sizing: border-box }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 'Instrument Sans', system-ui, sans-serif }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 56px 16px 96px }
+  header h1 { font: 600 clamp(30px, 5vw, 46px)/1.05 Unbounded, sans-serif; letter-spacing: -.03em; margin: 0 0 14px }
+  header p { color: var(--mu); max-width: 62ch; margin: 0 0 48px }
+  .opt { display: grid; grid-template-columns: 300px 1fr; border-top: 1px solid var(--line); padding: 40px 0 }
+  .big { aspect-ratio: 1; display: grid; place-items: center; color: #fff; background: radial-gradient(circle at 50% 40%, #0B1622, #000 70%); border-radius: 28px }
+  .info { padding-left: 40px; display: flex; flex-direction: column; gap: 22px }
+  .info h2 { font: 600 24px/1.2 Unbounded, sans-serif; letter-spacing: -.02em; margin: 0 }
+  .info h2 small { font: 500 14px 'Instrument Sans'; color: var(--blue); margin-left: 10px; letter-spacing: 0 }
+  .info p { margin: 6px 0 0; color: var(--mu); max-width: 58ch }
+  .lock { display: flex; align-items: center; gap: 14px; color: #fff }
+  .lock b { font: 600 40px/1 Unbounded, sans-serif; letter-spacing: -.04em }
+  .uses { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end }
+  .use { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; color: var(--mu) }
+  .tile { width: 72px; height: 72px; border-radius: 17px; display: grid; place-items: center; color: #fff; background: #000; box-shadow: inset 0 0 0 1px var(--line) }
+  .tile.blue { background: var(--blue); --acc: #000 }
+  .tile.light { background: #fff; color: #0A0B10; box-shadow: none }
+  .avatar { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: #000; box-shadow: inset 0 0 0 1px var(--line) }
+  .tab { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px; background: #16171C; border-radius: 10px 10px 0 0; font-size: 13px; color: #cfd1d6 }
+  .app { display: flex; align-items: center; gap: 9px; padding: 10px 14px; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--line); color: #fff }
+  .app span { font-weight: 800; font-size: 19px; letter-spacing: -.045em }
+  @media (max-width: 760px) { .opt { grid-template-columns: 1fr; gap: 24px } .info { padding-left: 0 } .big { max-width: 300px } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Orbit</h1>
+    <p>Cuatro direcciones de marca para Orbit. Todas son de una o dos tintas (blanco y el azul #1D9BF0 que ya usa la app), así que funcionan en el favicon, como avatar de X, impresas o en un solo color.</p>
+  </header>
+  <main id="opts"></main>
+</div>
+
+<script>
+const ACC = 'var(--acc, #1D9BF0)'
+const MARKS = {
+  // 1. Graduación: una curva de bonding que sube y se cierra en órbita
+  escape: (u) => `
+    <defs><linearGradient id="g${u}" gradientUnits="userSpaceOnUse" x1="10" y1="108" x2="98" y2="40">
+      <stop offset="0" style="stop-color:${ACC}"/><stop offset="1" stop-color="currentColor"/></linearGradient></defs>
+    <path d="M10 107 C56 109 98 100 98 56 A34 34 0 1 0 45 85" fill="none" stroke="url(#g${u})" stroke-width="13" stroke-linecap="round"/>`,
+  // 2. Satélite: una O gruesa atravesada por un satélite azul
+  satellite: (u) => `
+    <defs><mask id="m${u}" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120"><rect width="120" height="120" fill="#fff"/><circle cx="87.6" cy="36.9" r="19" fill="#000"/></mask></defs>
+    <circle cx="60" cy="60" r="36" fill="none" stroke="currentColor" stroke-width="16" mask="url(#m${u})"/>
+    <circle cx="87.6" cy="36.9" r="11.5" style="fill:${ACC}"/>`,
+  // 3. Apogeo: planeta con anillo afilado (grueso adelante, fino atrás) y una luna
+  apogee: (u) => `
+    <defs><clipPath id="c${u}"><rect x="0" y="58" width="120" height="70"/></clipPath></defs>
+    <g transform="rotate(-22 60 60)">
+      <path fill-rule="evenodd" fill="currentColor" d="M6 60A54 19 0 1 0 114 60A54 19 0 1 0 6 60ZM12 58A48 13 0 1 0 108 58A48 13 0 1 0 12 58Z"/>
+      <circle cx="60" cy="60" r="27" style="fill:${ACC}"/>
+      <path clip-path="url(#c${u})" fill-rule="evenodd" fill="currentColor" d="M6 60A54 19 0 1 0 114 60A54 19 0 1 0 6 60ZM12 58A48 13 0 1 0 108 58A48 13 0 1 0 12 58Z"/>
+      <circle cx="112" cy="44" r="6.5" fill="currentColor"/>
+    </g>`,
+  // 4. Radar: una O con barrido de radar y un lanzamiento detectado
+  radar: (u) => `
+    <defs><linearGradient id="r${u}" gradientUnits="userSpaceOnUse" x1="60" y1="26" x2="94" y2="60">
+      <stop offset="0" style="stop-color:${ACC}" stop-opacity="0"/><stop offset="1" style="stop-color:${ACC}" stop-opacity=".85"/></linearGradient></defs>
+    <circle cx="60" cy="60" r="41" fill="none" stroke="currentColor" stroke-width="10"/>
+    <path d="M60 60L60 27A33 33 0 0 1 93 60Z" fill="url(#r${u})"/>
+    <path d="M60 60H92" style="stroke:${ACC}" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="60" cy="60" r="6" style="fill:${ACC}"/>
+    <circle cx="80" cy="42" r="6" fill="currentColor"/>`,
+}
+const OPTS = [
+  ['escape', 'Graduación', 'La historia de cada token de pons en un solo trazo: arranca en azul como lanzamiento, pasa por debajo, sube por la curva de bonding y se cierra en órbita al graduarse. Es la más propia y la que nadie más puede usar.'],
+  ['satellite', 'Satélite', 'Una O gruesa con un satélite azul que la atraviesa. Es la más simple y fuerte de las cuatro, se reconoce a 16 px y se puede animar haciendo girar el satélite.'],
+  ['apogee', 'Apogeo', 'Un planeta con anillo afilado (grueso por delante, fino por detrás) para dar profundidad, y una luna. Es el más "espacial" y premium.'],
+  ['radar', 'Radar', 'Una O con barrido de radar que detecta un lanzamiento. Habla directo de la función principal, el radar en vivo, y en la app puede girar de verdad.'],
+]
+let uid = 0
+const svg = (k, size) => `<svg width="${size}" height="${size}" viewBox="0 0 120 120" aria-hidden="true">${MARKS[k](++uid)}</svg>`
+document.getElementById('opts').innerHTML = OPTS.map(([k, name, why], i) => `
+  <section class="opt">
+    <div class="big">${svg(k, 200)}</div>
+    <div class="info">
+      <div><h2>${name}<small>Opción ${i + 1}</small></h2><p>${why}</p></div>
+      <div class="lock">${svg(k, 52)}<b>orbit</b></div>
+      <div class="uses">
+        <div class="use"><div class="tile">${svg(k, 50)}</div>App</div>
+        <div class="use"><div class="tile blue">${svg(k, 50)}</div>App azul</div>
+        <div class="use"><div class="avatar">${svg(k, 46)}</div>Avatar X</div>
+        <div class="use"><div class="tile light">${svg(k, 50)}</div>Fondo claro</div>
+        <div class="use"><div class="tab">${svg(k, 16)}Orbit</div>Pestaña</div>
+        <div class="use"><div class="app">${svg(k, 26)}<span>orbit</span></div>Header</div>
+      </div>
+    </div>
+  </section>`).join('')
+</script>
+</body>
+</html>

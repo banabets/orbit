@@ -1,0 +1,116 @@
+/* Docs page — classes prefixed dc- */
+.page.docs { padding: 26px 26px 60px; gap: 22px }
+.dc-head h1 { font-size: 30px; letter-spacing: -.035em; margin: 0 }
+.dc-head p { color: var(--mu); margin-top: 6px; font-size: 14.5px; max-width: 80ch }
+.dc-grid { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 24px; align-items: start }
+.dc-toc { position: sticky; top: 0; display: flex; flex-direction: column; gap: 2px; border: 1px solid var(--line); border-radius: 16px; padding: 12px; background: var(--bg2) }
+.dc-toc b { font: 600 10.5px var(--mono); text-transform: uppercase; letter-spacing: .1em; color: var(--fa); padding: 4px 8px 8px }
+.dc-toc a { display: flex; align-items: center; gap: 9px; padding: 7px 8px; border-radius: 9px; color: var(--fg2); font-size: 13px }
+.dc-toc a:hover { background: var(--s2); color: var(--fg) }
+.dc-body { display: flex; flex-direction: column; gap: 16px; min-width: 0; max-width: 1100px }
+.dc-sec { border: 1px solid var(--line); border-radius: 18px; background: var(--bg2); padding: 20px 22px; display: flex; flex-direction: column; gap: 12px; scroll-margin-top: 16px }
+.dc-sec-h { display: flex; align-items: center; gap: 11px }
+.dc-sec-h h2 { font-size: 19px; letter-spacing: -.02em; margin: 0 }
+.dc-n { color: var(--fa); font-size: 12px }
+.dc-intro { color: var(--fg2); font-size: 15px; line-height: 1.65 }
+.dc-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px }
+.dc-steps li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; align-items: start }
+.dc-steps li > span { width: 26px; height: 26px; border-radius: 50%; background: var(--s3); display: grid; place-items: center; font-size: 12px; color: var(--fg) }
+.dc-steps li p { font-size: 14.5px; line-height: 1.6; color: var(--fg); padding-top: 2px }
+.dc-tips { display: flex; flex-direction: column; gap: 6px; border-radius: 12px; background: var(--sun-s); padding: 12px 14px }
+.dc-tips p { font-size: 13.5px; line-height: 1.55; color: var(--fg2) }
+.dc-gloss { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px }
+.dc-gloss div { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: var(--s1) }
+.dc-gloss dt { font-weight: 700; font-size: 14px }
+.dc-gloss dd { margin: 4px 0 0; color: var(--fg2); font-size: 13.5px; line-height: 1.55 }
+.dc-faq { border-top: 1px solid var(--line) }
+.dc-faq button { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 13px 2px; border: 0; background: transparent; font-weight: 600; font-size: 14.5px; text-align: left }
+.dc-faq button span { color: var(--mu); font-size: 18px }
+.dc-faq p { color: var(--fg2); font-size: 14px; line-height: 1.6; padding: 0 2px 14px }
+@media (max-width: 900px) { .dc-grid { grid-template-columns: minmax(0, 1fr) } .dc-toc { position: static } .dc-gloss { grid-template-columns: minmax(0, 1fr) } .page.docs { padding: 18px 16px 40px } }
+
+/* ---- interactive docs: index with search + progress, steps you can tick, hands-on widgets ---- */
+.dc-q { display: flex; align-items: center; gap: 6px; height: 36px; border-radius: 10px; border: 1px solid var(--line2); background: var(--s2); padding: 0 8px 0 10px; margin-bottom: 6px }
+.dc-q input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--fg); font: 500 13px var(--font); outline: none }
+.dc-q kbd { font: 600 10px var(--mono); color: var(--fa); border: 1px solid var(--line2); border-radius: 5px; padding: 0 5px }
+.dc-grp { display: flex; flex-direction: column; gap: 1px }
+.dc-toc .dc-grp b { padding-top: 12px }
+.dc-toc a .dc-dot { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid var(--fa); flex: none }
+.dc-toc a.read .dc-dot { background: var(--buy); border-color: var(--buy) }
+.dc-toc a.on { background: var(--s2); color: var(--fg); font-weight: 600 }
+.dc-progress { display: flex; flex-direction: column; gap: 6px; padding: 14px 8px 4px; color: var(--mu); font-size: 11.5px }
+.dc-bar { display: block; height: 6px; border-radius: 99px; background: var(--s3); overflow: hidden }
+.dc-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--buy), #9BF5C6); transition: width .4s }
+.dc-eyebrow { color: var(--buy); font: 700 10.5px var(--mono); letter-spacing: .1em; text-transform: uppercase }
+.dc-read { margin-left: auto; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--buy-s); color: var(--buy); font-size: 12px; font-weight: 800 }
+.dc-none { color: var(--mu); padding: 20px 4px }
+.dc-steps li > button { width: 26px; height: 26px; border-radius: 50%; background: var(--s3); border: 1px solid transparent; display: grid; place-items: center; font-size: 12px; color: var(--fg); cursor: pointer; padding: 0 }
+.dc-steps li > button:hover { border-color: var(--buy) }
+.dc-steps li.ok > button { background: var(--buy); color: #04140b; font-weight: 800 }
+.dc-steps li.ok p { color: var(--mu) }
+.dc-try { display: flex; flex-direction: column; gap: 8px }
+/* widgets */
+.dw { border: 1px solid var(--line2); border-radius: 16px; background: var(--s2); padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0 }
+.dw-calc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px }
+@media (max-width: 900px) { .dw-calc { grid-template-columns: minmax(0, 1fr) } }
+.dw-in { display: flex; flex-direction: column; gap: 6px; min-width: 0 }
+.dw-l { color: var(--mu); font-size: 11.5px; margin-top: 4px }
+.dw-field { display: flex; border: 1px solid var(--line2); border-radius: 10px; overflow: hidden; background: var(--s1) }
+.dw-field input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--fg); font: 600 15px var(--mono); padding: 9px 10px; outline: none }
+.dw-field select { border: 0; border-left: 1px solid var(--line2); background: var(--s3); color: var(--fg); font: 600 12px var(--font); padding: 0 8px }
+.dw-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; background: var(--s1); border: 1px solid var(--line2); border-radius: 10px; padding: 3px }
+.dw-seg.three { grid-template-columns: repeat(3, 1fr) }
+.dw-seg.small { display: inline-grid; width: auto }
+.dw-seg button { height: 30px; padding: 0 10px; border: 0; border-radius: 8px; background: transparent; color: var(--mu); font: 700 12px var(--font); cursor: pointer }
+.dw-seg button[aria-pressed='true'] { background: var(--s3); color: var(--fg) }
+.dw-out { display: flex; flex-direction: column; gap: 10px; min-width: 0 }
+.dw-split { display: flex; height: 34px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line2); background: var(--s1) }
+.dw-split i { display: grid; place-items: center; font: 700 11px var(--mono); font-style: normal; color: #000; min-width: 0; overflow: hidden; white-space: nowrap; transition: flex-grow .3s }
+.dw-split .a, .dw-legend .a { background: var(--sky) } .dw-split .b, .dw-legend .b { background: var(--buy) } .dw-split .c, .dw-legend .c { background: var(--sun) }
+.dw-legend { display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; color: var(--fg2) }
+.dw-legend div { display: flex; align-items: center; gap: 8px } .dw-legend b { margin-left: auto; font-size: 12.5px; color: var(--fg) }
+.dw-legend .sq { width: 10px; height: 10px; border-radius: 3px; flex: none }
+.dw-why { margin: 0; color: var(--mu); font-size: 12.5px; line-height: 1.55 }
+.dw-labels { display: flex; flex-wrap: wrap; gap: 8px }
+.dw-labels .lbl { display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--line2); border-radius: 99px; padding: 6px 12px; font: 700 12.5px var(--font); cursor: pointer; background: var(--s1); color: var(--fg2) }
+.dw-labels .lbl[aria-pressed='true'] { border-color: currentColor }
+.dw-labels .lbl.y { color: var(--sun) } .dw-labels .lbl.r { color: var(--sell) } .dw-labels .lbl.v { color: #A78BFA } .dw-labels .lbl.b { color: var(--sky) } .dw-labels .lbl.g { color: var(--buy) }
+.dw-lbl-ex { margin: 0; border: 1px dashed var(--line2); border-radius: 12px; padding: 10px 12px; color: var(--fg2); font-size: 13px; min-height: 44px }
+.dw-row { display: flex; align-items: center; justify-content: space-between; gap: 10px }
+.dw-tag { font: 700 10.5px var(--mono); color: var(--fa); letter-spacing: .08em; text-transform: uppercase }
+.dw-chart .chart-box { border-radius: 12px; background: var(--s1) }
+.dw-curve input[type=range] { width: 100%; accent-color: var(--buy) }
+/* phone docs */
+.dcm { padding: 8px 16px 0; display: flex; flex-direction: column; gap: 10px }
+.dcm h1 { margin: 6px 0 2px; font-size: 26px; letter-spacing: -.03em }
+.dcm .dcm-h { font-size: 30px }
+.dcm-q { height: 44px; border-radius: 14px; border: 1px solid var(--line2); background: var(--s2); color: #fff; padding: 0 14px; font-size: 14px; font-family: inherit; outline: none }
+.dcm-chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none }
+.dcm-chips::-webkit-scrollbar { display: none }
+.dcm .dcm-chips button { flex: none; height: 32px; padding: 0 13px; border-radius: 99px; border: 1px solid var(--line2); background: transparent; color: var(--fg2); font-weight: 700; font-size: 12.5px; font-family: inherit }
+.dcm .dcm-chips button[aria-pressed='true'] { background: #fff; color: #000; border-color: #fff }
+.dcm-hero { border-radius: 20px; padding: 14px 16px 10px; border: 1px solid var(--line2); background: radial-gradient(120% 140% at 0% 0%, rgba(59,227,143,.18), transparent 55%), var(--s1) }
+.dcm-hero b { font-size: 16px } .dcm-hero .dc-progress { padding: 8px 0 4px }
+.dcm .dcm-tile { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; border-radius: 18px; padding: 12px 14px; border: 1px solid #1F1F24; background: var(--s1); color: #fff; font-family: inherit }
+.dcm-tile .tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px } .dcm-tile b { font-size: 14.5px }
+.dcm-tile small { color: var(--mu); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.dcm-tile .go { color: var(--fa); font-size: 20px }
+.dcm-ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: #1B1B1F; flex: none; box-shadow: inset 0 0 0 2px #1B1B1F }
+.dcm-ic.read { box-shadow: inset 0 0 0 2px #3BE38F }
+.dcm-try { flex: none; font: 700 10px 'Geist Mono', ui-monospace, monospace; color: #3BE38F; border: 1px solid rgba(59,227,143,.35); border-radius: 99px; padding: 2px 7px }
+.dcm-none { color: var(--mu); text-align: center; padding: 16px }
+.dcm-top { display: flex; align-items: center; gap: 10px; color: var(--mu); font: 700 11px 'Geist Mono', ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase }
+.dcm .dcm-back { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line2); background: var(--s2); color: #fff; font-size: 22px; line-height: 1 }
+.dcm .dc-intro { font-size: 15px }
+.dcm .dw-calc { grid-template-columns: minmax(0, 1fr) }
+.dcm .dc-gloss { grid-template-columns: minmax(0, 1fr) }
+@media (prefers-reduced-motion: reduce) { .dc-bar i, .dw-split i { transition: none } }
+
+/* Orbit docs */
+.dc-head h1 { font: 600 30px/1.1 var(--display); letter-spacing: -.035em }
+.dc-toc { border-radius: 18px }
+.dc-toc b { font: 500 12px var(--font); text-transform: none; letter-spacing: 0; color: var(--mu) }
+.dc-toc a:hover { background: var(--blue-s) }
+.dc-sec { background: linear-gradient(180deg, rgba(255,255,255,.018), transparent 120px), var(--bg2) }
+.dc-sec-h h2 { font: 500 17px var(--display); letter-spacing: -.02em }
+.dc-eyebrow { color: var(--blue); font: 600 12px var(--font); letter-spacing: 0; text-transform: none }

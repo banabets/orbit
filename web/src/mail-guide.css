@@ -1,0 +1,25 @@
+/* First-visit Mail guide (components/MailGuide.tsx). Dark by design, like the app. */
+.mg-wrap { position: fixed; inset: 0; z-index: 85; background: rgba(0,0,0,.72); display: grid; place-items: center; padding: 16px }
+.mg { width: min(440px, 100%); border-radius: 24px; background: var(--s1); border: 1px solid var(--s3); padding: 18px 22px 22px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; box-shadow: 0 30px 80px rgba(0,0,0,.8); color: #F4F4F6; animation: mg-in .22s ease-out }
+@keyframes mg-in { from { transform: translateY(10px); opacity: 0 } }
+.mg-top { align-self: stretch; display: flex; justify-content: space-between; align-items: center }
+.mg-step { color: var(--fa); font-size: 11px; font-weight: 700 }
+.mg .mg-skip { border: 0; background: transparent; color: var(--mu); font-weight: 600; font-size: 13px; font-family: inherit; cursor: pointer; padding: 4px }
+.mg-ic { width: 76px; height: 76px; border-radius: 24px; display: grid; place-items: center; margin-top: 4px }
+.mg-ic.v { background: rgba(167,139,250,.14); color: #A78BFA } .mg-ic.b { background: rgba(125,211,252,.12); color: #7DD3FC }
+.mg-ic.y { background: rgba(251,191,36,.12); color: #FBBF24 } .mg-ic.g { background: rgba(59,227,143,.12); color: #3BE38F }
+.mg h3 { margin: 4px 0 0; font-size: 21px; letter-spacing: -.02em; text-wrap: balance }
+.mg p { margin: 0; color: var(--fg2); font-size: 14px; line-height: 1.6; max-width: 36ch }
+.mg-dots { display: flex; gap: 6px; margin-top: 4px }
+.mg-dots i { width: 7px; height: 7px; border-radius: 99px; background: var(--line2); transition: width .2s }
+.mg-dots i.on { width: 22px; background: var(--blue) }
+.mg-btns { align-self: stretch; display: flex; gap: 8px; margin-top: 6px }
+.mg .mg-btns button { height: 48px; border-radius: 14px; font-weight: 800; font-size: 15px; font-family: inherit; cursor: pointer }
+.mg .mg-btns .mg-back { flex: 0 0 34%; border: 1px solid var(--line2); background: var(--s2); color: #F4F4F6 }
+.mg .mg-btns .mg-next { flex: 1; border: 0; background: var(--blue); color: #fff }
+.mg button:focus-visible { outline: 2px solid #fff; outline-offset: 2px }
+.mg .mg-note { color: var(--mu); font-size: 12px }
+/* phone: a bottom sheet over the app */
+.mg-wrap.phone { align-items: end; padding: 0 }
+.mg-wrap.phone .mg { width: 100%; border-radius: 28px 28px 0 0; padding: 16px 20px calc(22px + env(safe-area-inset-bottom, 0px)) }
+@media (prefers-reduced-motion: reduce) { .mg, .mg-dots i { animation: none; transition: none } }

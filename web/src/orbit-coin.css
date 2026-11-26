@@ -1,0 +1,30 @@
+/* The official $ORBIT coin (components/OrbitCoin.tsx) */
+.r56 { width: 56px; height: 56px }
+.nx-hero { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 16px; align-items: center; border-radius: 18px; padding: 16px 20px; border: 1px solid rgba(29,155,240,.45); background: radial-gradient(90% 160% at 0% 0%, rgba(29,155,240,.24), transparent 55%), radial-gradient(80% 140% at 100% 100%, rgba(52,211,153,.14), transparent 55%), #05070a }
+.nx-hero .img { border-radius: 50%; box-shadow: 0 0 0 3px rgba(29,155,240,.35) }
+.nx-mid { min-width: 0 }
+.nx-hero h3 { margin: 0; font-size: 20px; letter-spacing: -.02em; display: flex; align-items: center; gap: 7px; flex-wrap: wrap }
+.nx-hero h3 .vchk { margin: 0 }
+.nx-hero h3 span { color: var(--mu); font-size: 13px; font-weight: 600 }
+.nx-hero p { margin: 2px 0 0; color: var(--fg2); font-size: 13px }
+.nx-stats { display: flex; gap: 14px; margin-top: 8px; font-size: 12.5px; color: var(--fg2); flex-wrap: wrap }
+.nx-act { display: flex; flex-direction: column; gap: 8px; align-items: stretch; min-width: 190px }
+.nx-ca { display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; border: 1px dashed var(--line2); border-radius: 9px; padding: 5px 6px 5px 9px; min-width: 0 }
+.nx-ca code { font-size: 11.5px; color: var(--fg2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; user-select: all }
+.nx-ca button { border: 0; background: var(--s3); color: var(--fg); border-radius: 6px; font-weight: 700; font-size: 11px; font-family: inherit; padding: 4px 9px; cursor: pointer; flex: none }
+.nx-buy { display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border-radius: 10px; background: #1D9BF0; color: #fff; font-weight: 800; font-size: 13px; white-space: nowrap }
+.nx-buy:hover { filter: brightness(1.08) }
+.nx-view { height: 34px; border-radius: 10px; border: 1px solid var(--line2); background: var(--s2); color: var(--fg); font-weight: 700; font-size: 12.5px; font-family: inherit; cursor: pointer }
+@media (max-width: 900px) { .nx-hero { grid-template-columns: 56px minmax(0, 1fr) } .nx-act { grid-column: 1 / -1 } }
+.nx-side { margin: 10px 8px 6px; border: 1px solid rgba(29,155,240,.45); border-radius: 14px; padding: 11px 12px; background: linear-gradient(160deg, rgba(29,155,240,.18), transparent 70%), var(--s1); display: flex; flex-direction: column; gap: 4px }
+.nx-side b { display: flex; align-items: center; gap: 6px; font-size: 14px } .nx-side b .vchk { margin: 0 }
+.nx-side small { color: var(--mu); font-size: 11.5px }
+.nx-side a { margin-top: 6px; height: 30px; border-radius: 9px; background: #1D9BF0; color: #fff; font-weight: 800; font-size: 12.5px; display: grid; place-items: center }
+.app.folded .nx-side { display: none }
+.nx-notice { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; border-radius: 14px; padding: 12px 14px; border: 1px solid rgba(29,155,240,.45); background: rgba(29,155,240,.08) }
+.nx-notice .vchk { margin: 0 }
+.nx-notice p { margin: 0; font-size: 13px; color: var(--fg2); flex: 1; min-width: 220px } .nx-notice b { color: var(--fg) }
+.nx-notice.phone { margin: 0 16px 12px; border-radius: 18px; color: var(--fg2) }
+.nx-notice.phone p { min-width: 0; font-size: 12.5px }
+.nx-notice.phone .nx-ca { width: 100% }
+.mapp .nx-ca button { background: #1B1B1F; color: #fff; padding: 4px 9px; border-radius: 6px; font-size: 11px; font-weight: 700 }
