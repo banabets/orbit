@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { logoCandidates } from '../lib/pons'
+import { isOfficialToken } from '../lib/official'
+import { Verified } from './Verified'
 
 /** Deterministic gradient fallback when a token has no logo or none of its URLs load. */
 export function gradient(seed: string) {
@@ -29,8 +31,17 @@ const failedOnce = new Set<string>()
 // phones load logos right away: lazy loading inside the app's scroll areas is unreliable on some mobile browsers
 const EAGER = typeof matchMedia !== 'undefined' && matchMedia('(max-width: 760px)').matches
 
+/**
+ * Token logo. The official Orbit coin always carries the blue check on its logo, so it is marked on every screen
+ * (feeds, search, watchlist, leaderboard, portfolio…) without each list having to remember it.
+ */
+export function TokenImg(props: { src?: string; seed: string; className: string; label?: string }) {
+  if (!isOfficialToken(props.seed)) return <Logo {...props} />
+  return <span className={'tokimg-off' + (props.className.includes('fill') ? ' fill' : '')}><Logo {...props} /><span className="tokimg-chk"><Verified size={14} coin /></span></span>
+}
+
 /** Logo with pons' image service first; when every source is dead (blocked hotlinks, 404s), a monogram of the ticker. */
-export function TokenImg({ src, seed, className, label }: { src?: string; seed: string; className: string; label?: string }) {
+function Logo({ src, seed, className, label }: { src?: string; seed: string; className: string; label?: string }) {
   const list = logoCandidates(src).filter((u) => !dead.has(u))
   const known = src ? good.get(src) : undefined
   // `dead` shrinks `list`, so the first remaining candidate is always next; the counter forces a re-render or a retry
