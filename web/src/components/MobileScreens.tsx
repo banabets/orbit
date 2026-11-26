@@ -102,7 +102,7 @@ export function MAlerts({ live, alerts, follows, creators, wallet }: { live: Liv
   const [filter, setFilter] = useState<FeedFilter>('all')
   const push = usePush(wallet.address, (m) => wallet.signText(m))
   const since = useLastSeen()
-  const kindIcon: Record<string, Concept> = { launch: 'launch', grad: 'graduated', near: 'race', whale: 'whale', devsell: 'trades', test: 'alerts', target: 'coins' }
+  const kindIcon: Record<string, Concept> = { launch: 'launch', grad: 'graduated', near: 'race', whale: 'whale', devsell: 'trades', dexpaid: 'rewards', test: 'alerts', target: 'coins' }
   const row = (k: keyof AlertPrefs, icon: Concept, label: string, hint: string) => (
     <label className="m-rule">
       <span className="ic"><GIcon name={icon} size={22} /></span>
@@ -197,6 +197,7 @@ export function MAlerts({ live, alerts, follows, creators, wallet }: { live: Liv
           <div className="grp">
             {row('followedNear', 'race', t('Curve 50 / 75 / 90%'), t('Only crossings seen live'))}
             {row('followedGrad', 'graduated', t('Graduates'), t('Completes its curve on pons'))}
+            {row('dexPaid', 'rewards', t('Gets Dex paid'), t('Its team pays for the DexScreener profile'))}
             {row('devSell', 'trades', t('The creator sells'), t('Any sell from the wallet that launched it'))}
             {row('creatorLaunch', 'launch', t('A creator you follow launches a token'), t('Follow creators from their page'))}
           </div>

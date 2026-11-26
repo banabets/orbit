@@ -1,3 +1,5 @@
+import { useDexPaid } from '../lib/dexPaid'
+import { DexPaidTag } from './DexPaid'
 import { useEffect, useMemo, useState } from 'react'
 import { OfficialNotice } from './OrbitCoin'
 import { Verified } from './Verified'
@@ -104,6 +106,7 @@ export function TokenPage({ live, curve, back, following, toggleFollow, writeCre
 
   const rows = [...all].reverse().filter((t) => onlyBuys === 'all' || t.side === onlyBuys)
   const nameOf = useNames([...(l ? [l.creator] : []), ...rows.slice(page * per, page * per + per).map((t) => t.trader), ...buyers.map(([a]) => a)])
+  useDexPaid(l ? [l.token] : [])
   if (!l) return <div className="empty">{live.launches.length ? tr('This token is not a pons v2 token.') : tr('Reading pons…')}</div>
   // a graduated curve is empty (its price reads 0): use the last trade instead, like the chart does
   const lastTrade = pool.length ? pool[pool.length - 1].p * (pr.usd ?? 1) : (() => { for (let i = all.length - 1; i >= 0; i--) { const x = all[i]; if (x.tokens > 0n) return (live.unit(curve, x.eth) / (Number(x.tokens) / 1e18)) * (pr.usd ?? 1) } return 0 })()
@@ -129,7 +132,7 @@ export function TokenPage({ live, curve, back, following, toggleFollow, writeCre
           <TokenImg src={m?.logo} seed={l.token} label={m?.symbol} className="r56" />
           <div style={{ minWidth: 0 }}>
             <h2>{m?.name || short(l.token)}{isOfficialToken(l.token) && <Verified size={20} coin />}</h2>
-            <div className="mu" style={{ fontSize: 12 }}>${m?.symbol} · <span className="pairtag">{pr.symbol === 'ETH' && <EthLogo size={13} />}{pr.symbol}</span> · {ageMin((Number(live.head.n - l.block) * SECONDS_PER_BLOCK) / 60)} · {cv?.graduated ? <span className="tag sun"><GIcon name="graduated" size={12} />{tr('Graduated')}</span> : <span className="tag"><GIcon name="trades" size={12} />{tr('On curve')}</span>}</div>
+            <div className="mu" style={{ fontSize: 12 }}>${m?.symbol} · <span className="pairtag">{pr.symbol === 'ETH' && <EthLogo size={13} />}{pr.symbol}</span> · {ageMin((Number(live.head.n - l.block) * SECONDS_PER_BLOCK) / 60)} · {cv?.graduated ? <span className="tag sun"><GIcon name="graduated" size={12} />{tr('Graduated')}</span> : <span className="tag"><GIcon name="trades" size={12} />{tr('On curve')}</span>}<DexPaidTag token={l.token} link /></div>
           </div>
           <div className="tk-price"><div className="pxbig">{unit === 'mcap' ? (pr.usd !== null ? usd(price * 1e9) : usd(price * 1e9).slice(1) + ' ' + pr.symbol) : pr.usd !== null ? px(price) : px(price).slice(1) + ' ' + pr.symbol}</div><div className={'mono tk-chg ' + (chg >= 0 ? 'up' : 'dn')}>{pct(chg)} · {range} <span className="mu">· {unit === 'mcap' ? tr('Market cap') : tr('Price')}</span></div></div>
           <span style={{ flex: 1 }} />

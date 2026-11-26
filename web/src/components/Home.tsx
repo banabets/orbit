@@ -13,6 +13,8 @@ import { TokenImg } from './TokenImg'
 import { GIcon, Avatar } from './Icon'
 import { EthLogo } from './EthLogo'
 import '../radar.css'
+import { useDexPaid } from '../lib/dexPaid'
+import { DexPaidTag } from './DexPaid'
 
 export type HomeStyle = 'classic' | 'cards'
 type Props = { live: Live; style?: HomeStyle; query: string; follows: Set<string>; openToken: (curve: string) => void }
@@ -138,6 +140,7 @@ export function Home({ live, query, openToken }: Props) {
   const bigShown = (big ?? []).filter((b) => filt !== 'curve' || b.stage !== 'graduated').filter((b) => filt !== 'grad' || b.stage === 'graduated').sort((a, b) => (b.marketCapUsd ?? 0) - (a.marketCapUsd ?? 0)).slice(0, 8)
   const pairIc = (s: string) => (s === 'ETH' || s === 'WETH' ? <EthLogo size={14} /> : null)
   const COLS = 'minmax(0,1.6fr) 150px 90px 80px 100px 72px 100px'
+  useDexPaid([...pageRows.map((l) => l.token), ...bigShown.map((b) => b.address)])
 
   return (
     <div className="page rd">
@@ -183,7 +186,7 @@ export function Home({ live, query, openToken }: Props) {
                 {bigShown.map((b, i) => (
                   <a key={b.address} className="rd-bigc" href={`https://ponsfamily.com/launchpad/${b.address}`} target="_blank" rel="noreferrer">
                     <div className="rd-tok"><span className="rd-rank mono">{i + 1}</span><TokenImg src={b.artwork} seed={b.address} label={b.symbol} className="r42" /><div className="n"><b>{isOfficialToken(b.address) && <Verified coin pre />}{b.name}</b><small>${b.symbol}</small></div><span className="sp" />{b.stage === 'graduated' && <span title={t('Graduated')}><GIcon name="graduated" size={20} /></span>}</div>
-                    <div className="mc mono">{usd(b.marketCapUsd ?? 0)}</div>
+                    <div className="mc-row"><div className="mc mono">{usd(b.marketCapUsd ?? 0)}</div><DexPaidTag token={b.address} small /></div>
                     <div className="meta"><span>{t('Volume')} {usd(b.volumeUsd ?? 0)}</span><span className="pair">{pairIc(b.quote.symbol)}{b.quote.symbol}</span></div>
                   </a>
                 ))}
@@ -200,7 +203,7 @@ export function Home({ live, query, openToken }: Props) {
                 const c = l.curve.toLowerCase(), cv = curves[c], m = name(l), s = stats[c], ch = changeOf(live, c), pr = live.pairOf(c), p = cv ? progress(cv) : 0, isGrad = !!cv?.graduated || grads.has(l.token.toLowerCase())
                 return (
                   <button key={l.token} className={'rd-tr' + (fresh.has(c) ? ' flash' : '')} style={{ gridTemplateColumns: COLS }} onClick={() => openToken(c)}>
-                    <div className="rd-tok"><TokenImg src={m?.logo} seed={l.token} label={m?.symbol} className="r36" /><div className="n"><b>{isOfficialToken(l.token) && <Verified coin pre />}{m?.name || short(l.token)}</b><small>${m?.symbol} · {ageMin(mins(l.block))} · <span className="pair">{pairIc(pr.symbol)}{pr.symbol}</span></small></div></div>
+                    <div className="rd-tok"><TokenImg src={m?.logo} seed={l.token} label={m?.symbol} className="r36" /><div className="n"><b>{isOfficialToken(l.token) && <Verified coin pre />}{m?.name || short(l.token)}</b><small>${m?.symbol} · {ageMin(mins(l.block))} · <span className="pair">{pairIc(pr.symbol)}{pr.symbol}</span><DexPaidTag token={l.token} small /></small></div></div>
                     {isGrad ? <span className="tag sun"><GIcon name="graduated" size={12} />{t('Graduated')}</span>
                       : !cv ? <span className="mu mono">…</span> : <div className="rd-prog"><span className="trk"><i style={{ width: `${Math.max(2, p * 100)}%` }} /></span><em>{(p * 100).toFixed(0)}%</em></div>}
                     <span className="r mono">{live.fmtMcap(cv)}</span>

@@ -1,5 +1,11 @@
 /* Generated translations. Keys are the English source text (see i18n.tsx). */
 export const ZH: Record<string, string> = {
+ "Dex paid": "Dex 已付费",
+ "Dex paid: the team paid for this token’s DexScreener profile": "Dex 已付费：团队为该代币的 DexScreener 资料付了费",
+ "Gets Dex paid": "变为 Dex 已付费",
+ "Its team pays for the DexScreener profile": "团队为 DexScreener 资料付费",
+ "${s} is Dex paid": "${s} 已 Dex 付费",
+ "The team paid for its DexScreener profile": "团队为它的 DexScreener 资料付了费",
  " comes back if no reply in 72h.": " 72 小时未回复将退回。",
  " in escrow · refunded if no reply in 72h": " 托管中 · 72 小时未回复则退款",
  "${s} crossed {pct}% of its curve": "${s} 已越过曲线的 {pct}%",
@@ -591,6 +597,12 @@ export const ZH: Record<string, string> = {
  "Holder": "持有者"
 }
 export const ES: Record<string, string> = {
+ "Dex paid": "Dex paid",
+ "Dex paid: the team paid for this token’s DexScreener profile": "Dex paid: el equipo pagó el perfil de este token en DexScreener",
+ "Gets Dex paid": "Se vuelve Dex paid",
+ "Its team pays for the DexScreener profile": "Su equipo paga el perfil en DexScreener",
+ "${s} is Dex paid": "${s} ya es Dex paid",
+ "The team paid for its DexScreener profile": "El equipo pagó su perfil en DexScreener",
  " comes back if no reply in 72h.": " vuelve si no responde en 72 h.",
  " in escrow · refunded if no reply in 72h": " en depósito · vuelve si no responde en 72 h",
  "${s} crossed {pct}% of its curve": "${s} pasó el {pct}% de su curva",

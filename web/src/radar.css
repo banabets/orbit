@@ -166,3 +166,4 @@
 .rd-story em { position: absolute; top: -7px; right: 10px; margin: 0; grid-area: auto }
 .rd-story em + b { grid-row: auto; grid-column: auto }
 .rd-stories { padding-top: 9px }
+.rd-bigc .mc-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0 } .rd-bigc .mc-row .dexpaid { margin-left: 0; flex: none }

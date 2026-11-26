@@ -11,8 +11,8 @@ import { GIcon, type Concept } from './Icon'
 import { PushSwitch } from './PushSwitch'
 import '../alerts.css'
 
-const KIND_ICON: Record<string, Concept> = { launch: 'launch', grad: 'graduated', near: 'race', whale: 'whale', devsell: 'trades', test: 'alerts', target: 'coins' }
-const KIND_TONE: Record<string, string> = { launch: 'v', grad: 'v', near: 'b', whale: 'y', devsell: 'r', test: 'g', target: 'g' }
+const KIND_ICON: Record<string, Concept> = { launch: 'launch', grad: 'graduated', near: 'race', whale: 'whale', devsell: 'trades', dexpaid: 'rewards', test: 'alerts', target: 'coins' }
+const KIND_TONE: Record<string, string> = { launch: 'v', grad: 'v', near: 'b', whale: 'y', devsell: 'r', dexpaid: 'g', test: 'g', target: 'g' }
 
 export function AlertsPage({ live, alerts, follows, creators, wallet }: { live: Live; alerts: Alerts; follows: Set<string>; creators: Set<string>; wallet: Wallet }) {
   const { t } = useT()
@@ -78,6 +78,7 @@ export function AlertsPage({ live, alerts, follows, creators, wallet }: { live: 
             <div className="hd"><span className="al-ico b"><GIcon name="race" size={16} /></span><b>{t('Tokens & creators you follow')}</b><span className="ct">{t('{a} tokens · {b} creators', { a: follows.size, b: creators.size })}</span></div>
             {sw('followedNear', t('Crosses 50, 75 or 90% of its curve'), t('Only crossings seen live'))}
             {sw('followedGrad', t('Graduates'), t('Completes its curve on pons'))}
+            {sw('dexPaid', t('Gets Dex paid'), t('Its team pays for the DexScreener profile'))}
             {sw('devSell', t('The creator sells'), t('Any sell from the wallet that launched it'))}
             {sw('creatorLaunch', t('A creator you follow launches a token'), t('Follow creators from their page'))}
             {!follows.size && !creators.size && <p className="al-empty">{t('You don’t follow anything yet. Open a token and press “Follow”, or follow a creator from their page.')}</p>}

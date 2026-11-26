@@ -1,9 +1,10 @@
 import { navigate } from './nav'
 import { useEffect, useRef, useState } from 'react'
 import type { Live } from './usePons'
+import { dexPaidInfo, onDexPaid, requestDexPaid } from './dexPaid'
 
-export type AlertPrefs = { followedNear: boolean; followedGrad: boolean; creatorLaunch: boolean; devSell: boolean; whaleAny: boolean; whaleMin: number; anyGrad: boolean; mailSound: boolean; mailNotify: boolean }
-export const DEFAULT_PREFS: AlertPrefs = { followedNear: true, followedGrad: true, creatorLaunch: true, devSell: true, whaleAny: false, whaleMin: 500, anyGrad: false, mailSound: true, mailNotify: true }
+export type AlertPrefs = { followedNear: boolean; followedGrad: boolean; creatorLaunch: boolean; devSell: boolean; whaleAny: boolean; whaleMin: number; anyGrad: boolean; dexPaid: boolean; mailSound: boolean; mailNotify: boolean }
+export const DEFAULT_PREFS: AlertPrefs = { followedNear: true, followedGrad: true, creatorLaunch: true, devSell: true, whaleAny: false, whaleMin: 500, anyGrad: false, dexPaid: true, mailSound: true, mailNotify: true }
 /** "Ping me when this token's market cap goes above/below X". One-shot: removed once it fires. */
 export type PriceTarget = { id: string; curve: string; dir: 'above' | 'below'; usd: number; from: number; at: number }
 export type AlertItem = { id: string; at: number; title: string; body: string; curve: string; kind: string }
@@ -67,6 +68,36 @@ export function useAlerts(live: Live, follows: Set<string>, creators: Set<string
     fire(out)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [live.feed])
+
+  // a followed token gets Dex paid (its team pays for the DexScreener profile): re-checked every 3 minutes.
+  // Only a change seen while Orbit is open fires; tokens already paid when first seen stay quiet.
+  const dexWas = useRef<Map<string, boolean>>(new Map())
+  const followTokens = [...follows].map((c) => live.byCurve.get(c)?.token.toLowerCase()).filter((x): x is string => !!x)
+  const followKey = followTokens.join()
+  useEffect(() => {
+    if (!prefs.dexPaid || !followKey) return
+    const toks = followKey.split(',')
+    for (const tk of toks) { const i = dexPaidInfo(tk); if (i && !dexWas.current.has(tk)) dexWas.current.set(tk, i.paid) }
+    const check = () => {
+      const out: AlertItem[] = []
+      for (const tk of toks) {
+        const i = dexPaidInfo(tk); if (!i) continue
+        const was = dexWas.current.get(tk)
+        dexWas.current.set(tk, i.paid)
+        if (was === false && i.paid) {
+          const l = live.byToken.get(tk); if (!l) continue
+          const curve = l.curve.toLowerCase()
+          out.push({ id: 'dex-' + tk, at: Date.now(), kind: 'dexpaid', curve, title: t('${s} is Dex paid', { s: sym(curve) }), body: t('The team paid for its DexScreener profile') })
+        }
+      }
+      fire(out)
+    }
+    const off = onDexPaid(check)
+    requestDexPaid(toks, true)
+    const id = setInterval(() => requestDexPaid(toks, true), 3 * 60_000)
+    return () => { off(); clearInterval(id) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefs.dexPaid, followKey])
 
   const tt = t
   // the creator selling a token the user follows

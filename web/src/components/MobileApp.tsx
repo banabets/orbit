@@ -1,3 +1,5 @@
+import { useDexPaid } from '../lib/dexPaid'
+import { DexPaidTag } from './DexPaid'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { OfficialNotice } from './OrbitCoin'
 import { Verified } from './Verified'
@@ -166,12 +168,13 @@ function TokenCard({ live, l, openToken }: { live: Live; l: Launch; openToken: (
   const { t } = useT()
   const c = l.curve.toLowerCase(), cv = live.curves[c], m = live.meta[l.token.toLowerCase()], s = live.stats[c], ch = changeOf(live, c), p = cv ? progress(cv) : 0, pr = live.pairOf(c)
   const grad = !!cv?.graduated || live.grads.has(l.token.toLowerCase())
+  useDexPaid([l.token])
   const mins = (Number(live.head.n - l.block) * SECONDS_PER_BLOCK) / 60
   return (
     <button className={'m-card' + (live.fresh.has(c) ? ' flash' : '')} onClick={() => openToken(c)}>
       <span className="glow" style={{ background: `hsl(${hueOf(l.token.toLowerCase())} 80% 55%)` }} />
       <TokenImg src={m?.logo} seed={l.token} label={m?.symbol} className="r52" />
-      <span className="n"><b>{isOfficialToken(l.token) && <Verified size={14} coin pre />}{m?.name || short(l.token)}</b><small>${m?.symbol} · {pr.symbol === 'ETH' ? <EthLogo size={12} /> : pr.symbol} · {ageMin(mins)}</small></span>
+      <span className="n"><b>{isOfficialToken(l.token) && <Verified size={14} coin pre />}{m?.name || short(l.token)}</b><small>${m?.symbol} · {pr.symbol === 'ETH' ? <EthLogo size={12} /> : pr.symbol} · {ageMin(mins)}<DexPaidTag token={l.token} small /></small></span>
       <span className="r"><span className="mc mono">{cv && (live.mcapUsd(cv) > 0 || live.pricePair(cv) > 0) ? live.fmtMcap(cv) : cv ? '—' : '…'}</span>{s ? <span className={'chg ' + (ch >= 0 ? 'up' : 'dn')}>{pct(ch)}</span> : null}</span>
       {grad ? <span className="meta"><span><GIcon name="graduated" size={13} /> {t('Graduated')}</span><span>{s ? t('vol 1h') + ' ' + usd(s.vol) : ''}</span></span> : <>
         <span className="bar"><i style={{ width: `${Math.max(3, p * 100)}%` }} /></span>
@@ -272,6 +275,7 @@ function MToken({ live, curve, back, following, toggleFollow, writeCreator, aler
     return ev.map((e) => ({ ...e, ath }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [full, all, curve, live.grads, live.pairOf])
+  useDexPaid(l ? [l.token] : [])
   if (!l) return <div className="m-empty">{live.launches.length ? t('This token is not a pons v2 token.') : t('Reading pons…')}</div>
   const pr = live.pairOf(curve), rate = pr.usd ?? 0
   const k1 = 1e9 * (rate || 1)
@@ -321,7 +325,7 @@ function MToken({ live, curve, back, following, toggleFollow, writeCreator, aler
     <div className="m-token">
       <div className="m-hero">
         <div className="bgblur" style={{ background: `radial-gradient(circle at 30% 40%, hsl(${hueOf(l.token.toLowerCase())} 80% 55%), transparent 70%)` }} />
-        <div className="top"><button className="m-icon" onClick={back} aria-label={t('Back')}>‹</button><TokenImg src={m?.logo} seed={l.token} label={m?.symbol} className="r46" /><div className="m-tt"><h2>{m?.name || short(l.token)}{isOfficialToken(l.token) && <Verified size={18} coin />}</h2><span>${m?.symbol} · {pr.symbol === 'ETH' ? <EthLogo size={12} /> : null} {pr.symbol}</span></div><span className="sp" /><button className={'m-icon' + (alerts.targets.some((x) => x.curve === curve) ? ' lit' : '')} onClick={() => setAlertOpen(true)} aria-label={t('Price alert')}><GIcon name="alerts" size={18} /></button></div>
+        <div className="top"><button className="m-icon" onClick={back} aria-label={t('Back')}>‹</button><TokenImg src={m?.logo} seed={l.token} label={m?.symbol} className="r46" /><div className="m-tt"><h2>{m?.name || short(l.token)}{isOfficialToken(l.token) && <Verified size={18} coin />}</h2><span>${m?.symbol} · {pr.symbol === 'ETH' ? <EthLogo size={12} /> : null} {pr.symbol}<DexPaidTag token={l.token} small link /></span></div><span className="sp" /><button className={'m-icon' + (alerts.targets.some((x) => x.curve === curve) ? ' lit' : '')} onClick={() => setAlertOpen(true)} aria-label={t('Price alert')}><GIcon name="alerts" size={18} /></button></div>
         <div className="big mono">{pr.usd !== null ? usd(mcap) : '—'}</div>
         <div className="sub"><span className={'chg ' + (up ? 'up' : 'dn')}>{pct(ch)}</span><span className="mu">{t('market cap')} · {range}</span></div>
       </div>
