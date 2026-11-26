@@ -2,7 +2,7 @@
 // Images (token logos) are left to the browser's own HTTP cache: their hosts don't allow CORS, so a worker
 // could only store opaque copies it can't check, and intercepting them just doubled every request.
 // Chain data (RPC), the pons API and /api/snapshot are never cached here: they always come from the network.
-const SHELL = 'orbit-shell-v9'
+const SHELL = 'orbit-shell-v10'
 
 self.addEventListener('install', () => self.skipWaiting())
 self.addEventListener('activate', (e) => e.waitUntil((async () => {

@@ -1,5 +1,6 @@
 import { useDexPaid } from '../lib/dexPaid'
 import { useStableOrder } from '../lib/useStableOrder'
+import { usePullToRefresh } from '../lib/usePullToRefresh'
 import { DexPaidTag } from './DexPaid'
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { OfficialNotice } from './OrbitCoin'
@@ -51,10 +52,16 @@ export function MobileApp(p: Props) {
   useEffect(() => { document.querySelector('.m-scroll')?.scrollTo?.(0, 0) }, [p.view, p.curve])
   useEffect(() => { if (p.wallet.address) setSheet(false) }, [p.wallet.address])
   const tab = p.view === 'wallet' || p.view === 'alerts' ? 'me' : p.view === 'token' || p.view === 'other' ? null : p.view
+  // pull down to refresh: reloads the app (data is cached on the phone, so it is quick, and it picks up a new version)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const ptr = usePullToRefresh(scrollRef, () => location.reload())
   return (
     <div className="mapp">
       {p.view !== 'token' && <AppBar live={p.live} wallet={p.wallet} onSearch={() => setSearch(true)} onWallet={() => (p.wallet.address ? p.go('/me') : setSheet(true))} />}
-      <div className="m-scroll">
+      <div className={'m-ptr' + (ptr.busy ? ' busy' : ptr.ready ? ' ready' : '')} style={{ transform: `translate(-50%, ${ptr.pull - 56}px)`, opacity: Math.min(1, ptr.pull / 40) }} aria-hidden={!ptr.pull}>
+        <span style={{ transform: `rotate(${ptr.pull * 3}deg)` }}><OrbitMark size={26} /></span>
+      </div>
+      <div className="m-scroll" ref={scrollRef} style={ptr.pull ? { transform: `translateY(${ptr.pull * 0.6}px)`, transition: 'none' } : undefined}>
         {p.view === 'home' && <MRadar live={p.live} follows={p.follows} openToken={p.openToken} />}
         {p.view === 'live' && <MLive live={p.live} follows={p.follows} openToken={p.openToken} />}
         {p.view === 'token' && p.curve && <MToken key={p.curve} live={p.live} curve={p.curve} back={() => history.length > 1 ? history.back() : p.go('/')} following={p.follows.has(p.curve)} toggleFollow={() => p.toggleFollow(p.curve!)} writeCreator={p.writeCreator} alerts={p.alerts} />}
