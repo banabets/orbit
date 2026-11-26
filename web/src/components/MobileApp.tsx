@@ -1,6 +1,7 @@
 import { useDexPaid } from '../lib/dexPaid'
+import { useStableOrder } from '../lib/useStableOrder'
 import { DexPaidTag } from './DexPaid'
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { OfficialNotice } from './OrbitCoin'
 import { Verified } from './Verified'
 import { isOfficialToken, ORBIT_TOKEN, ORBIT_SYMBOL, orbitBuyUrl } from '../lib/official'
@@ -125,7 +126,11 @@ function MRadar({ live, follows, openToken }: { live: Live; follows: Set<string>
     if (f === 'follow') return withCurve.filter((l) => follows.has(l.curve.toLowerCase()))
     return pin(withCurve.filter((l) => stats[l.curve.toLowerCase()]).sort((a, b) => vol(b) - vol(a)))
   }, [launches, curves, stats, f, follows, grads])
-  const list = all.slice(0, more)
+  // keep rows in place between re-sorts: re-sorting every tick made the list jump and look like it flickered
+  const stableAll = useStableOrder(all, (l) => l.curve, 15_000, f)
+  const list = stableAll.slice(0, more)
+  const stableStories = useStableOrder(stories, (l) => l.token, 15_000)
+  const fresh5 = useMemo(() => new Set(launches.slice(0, 5).map((x) => x.token)), [launches])
   const listKey = list.map((l) => l.curve).join()
   useEffect(() => {
     const missing = list.filter((l) => !curves[l.curve.toLowerCase()]).map((l) => l.curve)
@@ -138,7 +143,7 @@ function MRadar({ live, follows, openToken }: { live: Live; follows: Set<string>
     <>
       <Ticker live={live} openToken={openToken} />
       <div className="m-stories">
-        {stories.map((l, k) => { const c = l.curve.toLowerCase(), ch = changeOf(live, c), m = name(l); return (
+        {stableStories.map((l) => { const k = fresh5.has(l.token) ? 0 : 99, c = l.curve.toLowerCase(), ch = changeOf(live, c), m = name(l); return (
           <button key={l.token} className="m-story" onClick={() => openToken(c)}>
             <span className={'ring ' + (k < 5 ? 'new' : ch >= 0 ? 'up' : '')}><TokenImg src={m?.logo} seed={l.token} label={m?.symbol} className="fill" /></span>
             {k < 5 && <em>{t('NEW')}</em>}
@@ -185,11 +190,16 @@ function TokenCard({ live, l, openToken }: { live: Live; l: Launch; openToken: (
 }
 
 function Ticker({ live, openToken }: { live: Live; openToken: (c: string) => void }) {
-  const items = useMemo(() => live.trades.filter((x) => x.side === 'buy' && live.byCurve.has(x.curve)).slice(0, 14), [live.trades, live.byCurve])
+  const latest = useMemo(() => live.trades.filter((x) => x.side === 'buy' && live.byCurve.has(x.curve)).slice(0, 14), [live.trades, live.byCurve])
+  // the marquee scrolls half its own width: changing its content every tick made it jump. Refresh it every 12 s instead.
+  const [items, setItems] = useState(latest)
+  const latestRef = useRef(latest); latestRef.current = latest
+  useEffect(() => { if (!items.length && latest.length) setItems(latest) }, [latest, items.length])
+  useEffect(() => { const id = setInterval(() => setItems(latestRef.current), 12_000); return () => clearInterval(id) }, [])
   if (!items.length) return null
-  const row = items.map((x) => { const l = live.byCurve.get(x.curve)!, m = live.meta[l.token.toLowerCase()], u = live.tradeUsd(x); return (
-    <button key={x.id} onClick={() => openToken(x.curve)}><TokenImg src={m?.logo} seed={l.token} label={m?.symbol} className="r18" /><b className="mono">+{u !== null ? usd(u) : '…'}</b>${m?.symbol || short(l.token)}</button>) })
-  return <div className="m-ticker"><div className="run">{row}{row}</div></div>
+  const row = (copy: string) => items.map((x) => { const l = live.byCurve.get(x.curve)!, m = live.meta[l.token.toLowerCase()], u = live.tradeUsd(x); return (
+    <button key={copy + x.id} onClick={() => openToken(x.curve)} tabIndex={copy === 'b' ? -1 : undefined} aria-hidden={copy === 'b' || undefined}><TokenImg src={m?.logo} seed={l.token} label={m?.symbol} className="r18" /><b className="mono">+{u !== null ? usd(u) : '…'}</b>${m?.symbol || short(l.token)}</button>) })
+  return <div className="m-ticker"><div className="run">{row('a')}{row('b')}</div></div>
 }
 
 /* ---------------- Live buys ---------------- */

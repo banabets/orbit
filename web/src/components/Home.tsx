@@ -14,6 +14,7 @@ import { GIcon, Avatar } from './Icon'
 import { EthLogo } from './EthLogo'
 import '../radar.css'
 import { useDexPaid } from '../lib/dexPaid'
+import { useStableOrder } from '../lib/useStableOrder'
 import { DexPaidTag } from './DexPaid'
 
 export type HomeStyle = 'classic' | 'cards'
@@ -111,11 +112,12 @@ export function Home({ live, query, openToken }: Props) {
     if (nx && !q && (filt === 'all' || filt === 'new' || list.includes(nx))) list = [nx, ...list.filter((x) => x !== nx)]
     return list
   }, [launches, curves, stats, meta, query, filt, grads])
+  const stableRows = useStableOrder(rows, (l) => l.curve, 15_000, filt + '|' + query)
   const PER = 16
   const [page, setPage] = useState(0)
   useEffect(() => setPage(0), [filt, query])
   const pages = Math.max(1, Math.ceil(rows.length / PER))
-  const pageRows = rows.slice(Math.min(page, pages - 1) * PER, Math.min(page, pages - 1) * PER + PER)
+  const pageRows = stableRows.slice(Math.min(page, pages - 1) * PER, Math.min(page, pages - 1) * PER + PER)
   const pageKey = pageRows.map((l) => l.curve).join()
   useEffect(() => {
     const missing = pageRows.filter((l) => !curves[l.curve.toLowerCase()]).map((l) => l.curve)
@@ -137,6 +139,8 @@ export function Home({ live, query, openToken }: Props) {
     return nx ? [nx, ...list.filter((x) => x !== nx)] : list
   }, [launches, stats])
 
+  const stableStories = useStableOrder(stories, (l) => l.token, 15_000)
+  const fresh5 = useMemo(() => new Set(launches.slice(0, 5).map((x) => x.token)), [launches])
   const bigShown = (big ?? []).filter((b) => filt !== 'curve' || b.stage !== 'graduated').filter((b) => filt !== 'grad' || b.stage === 'graduated').sort((a, b) => (b.marketCapUsd ?? 0) - (a.marketCapUsd ?? 0)).slice(0, 8)
   const pairIc = (s: string) => (s === 'ETH' || s === 'WETH' ? <EthLogo size={14} /> : null)
   const COLS = 'minmax(0,1.6fr) 150px 90px 80px 100px 72px 100px'
@@ -161,7 +165,7 @@ export function Home({ live, query, openToken }: Props) {
       <div className="rd-stories-wrap">
         <button className="rd-arrow left" aria-label={t('Scroll left')} onClick={() => storyRef.current?.scrollBy({ left: -360, behavior: 'smooth' })}>‹</button>
         <div className="rd-stories" ref={storyRef} aria-label={t('New and trending')} {...dragScroll}>
-          {stories.map((l, k) => {
+          {stableStories.map((l) => { const k = fresh5.has(l.token) ? 0 : 99;
             const c = l.curve.toLowerCase(), ch = changeOf(live, c)
             return (
               <button key={l.token} className="rd-story" onClick={(e) => { if (dragged.current) { e.preventDefault(); return } openToken(c) }} title={name(l)?.name} draggable={false}>
