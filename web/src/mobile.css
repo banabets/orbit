@@ -279,3 +279,9 @@
 @keyframes m-ptr-spin { to { transform: rotate(360deg) } }
 .m-scroll { transition: transform .25s ease }
 @media (prefers-reduced-motion: reduce) { .m-ptr.busy span { animation: none } }
+
+/* iPhone scroll flicker: big `filter: blur()` layers on every card get re-rasterized in tiles while scrolling.
+   The same soft glow is now a radial gradient, which costs nothing to draw. */
+.m-card .glow { filter: none; inset: -60% auto auto -35%; width: 95%; height: 220%; opacity: .3 }
+.m-hero .bgblur { filter: none; opacity: .45 }
+.m-build { margin: 18px 0 8px; text-align: center; font: 500 11px var(--mono); color: var(--fa) }

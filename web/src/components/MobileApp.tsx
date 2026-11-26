@@ -184,7 +184,7 @@ function TokenCard({ live, l, openToken }: { live: Live; l: Launch; openToken: (
   const mins = (Number(live.head.n - l.block) * SECONDS_PER_BLOCK) / 60
   return (
     <button className={'m-card' + (live.fresh.has(c) ? ' flash' : '')} onClick={() => openToken(c)}>
-      <span className="glow" style={{ background: `hsl(${hueOf(l.token.toLowerCase())} 80% 55%)` }} />
+      <span className="glow" style={{ background: `radial-gradient(closest-side, hsl(${hueOf(l.token.toLowerCase())} 80% 55% / .9), hsl(${hueOf(l.token.toLowerCase())} 80% 55% / .35) 45%, transparent)` }} />
       <TokenImg src={m?.logo} seed={l.token} label={m?.symbol} className="r52" />
       <span className="n"><b>{isOfficialToken(l.token) && <Verified size={14} coin pre />}{m?.name || short(l.token)}</b><small>${m?.symbol} · {pr.symbol === 'ETH' ? <EthLogo size={12} /> : pr.symbol} · {ageMin(mins)}<DexPaidTag token={l.token} small /></small></span>
       <span className="r"><span className="mc mono">{cv && (live.mcapUsd(cv) > 0 || live.pricePair(cv) > 0) ? live.fmtMcap(cv) : cv ? '—' : '…'}</span>{s ? <span className={'chg ' + (ch >= 0 ? 'up' : 'dn')}>{pct(ch)}</span> : null}</span>
@@ -341,7 +341,7 @@ function MToken({ live, curve, back, following, toggleFollow, writeCreator, aler
   return (
     <div className="m-token">
       <div className="m-hero">
-        <div className="bgblur" style={{ background: `radial-gradient(circle at 30% 40%, hsl(${hueOf(l.token.toLowerCase())} 80% 55%), transparent 70%)` }} />
+        <div className="bgblur" style={{ background: `radial-gradient(ellipse at 30% 40%, hsl(${hueOf(l.token.toLowerCase())} 80% 55% / .8), hsl(${hueOf(l.token.toLowerCase())} 80% 55% / .25) 40%, transparent 72%)` }} />
         <div className="top"><button className="m-icon" onClick={back} aria-label={t('Back')}>‹</button><TokenImg src={m?.logo} seed={l.token} label={m?.symbol} className="r46" /><div className="m-tt"><h2>{m?.name || short(l.token)}{isOfficialToken(l.token) && <Verified size={18} coin />}</h2><span>${m?.symbol} · {pr.symbol === 'ETH' ? <EthLogo size={12} /> : null} {pr.symbol}<DexPaidTag token={l.token} small link /></span></div><span className="sp" /><button className={'m-icon' + (alerts.targets.some((x) => x.curve === curve) ? ' lit' : '')} onClick={() => setAlertOpen(true)} aria-label={t('Price alert')}><GIcon name="alerts" size={18} /></button></div>
         <div className="big mono">{pr.usd !== null ? usd(mcap) : '—'}</div>
         <div className="sub"><span className={'chg ' + (up ? 'up' : 'dn')}>{pct(ch)}</span><span className="mu">{t('market cap')} · {range}</span></div>
@@ -447,6 +447,7 @@ function MMe({ live, wallet, follows, go, openToken, connect }: { live: Live; wa
       <div className="m-sec">{t('Language')}</div>
       <div className="m-tabs wrap">{[{ code: 'auto' as const, name: t('Automatic (device)') }, ...LANGS].map((x) => <button key={x.code} className={'m-tab' + (pref === x.code ? ' on' : '')} onClick={() => setPref(x.code)}>{x.name}</button>)}</div>
       {X_URL && <a className="m-xrow" href={X_URL} target="_blank" rel="noreferrer"><span className="ic"><XIcon size={20} /></span><span className="tx"><b>{t('Follow Orbit on X')}</b><small>{X_HANDLE}</small></span><span aria-hidden="true">↗</span></a>}
+      <p className="m-build">Orbit · {__BUILD__}</p>
       {wallet.address && <button className="m-link" onClick={wallet.disconnect}>{t('Disconnect')}</button>}
       <div style={{ height: 110 }} />
     </>

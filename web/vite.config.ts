@@ -1,5 +1,8 @@
 import { defineConfig, type ProxyOptions } from 'vite'
 import react from '@vitejs/plugin-react'
+// short commit of this build (Vercel passes it), shown on the phone's Me screen; "dev" on a local build
+const env = (globalThis as unknown as { process?: { env: Record<string, string | undefined> } }).process?.env ?? {}
+const BUILD = (env.VERCEL_GIT_COMMIT_SHA || 'dev').slice(0, 7)
 
 // pons' public API (profile names, prices) sends no CORS headers, so this server forwards it same-origin.
 // A request cut halfway (page reload, phone going to sleep) must not crash the server: answer 502 and carry on.
@@ -16,6 +19,7 @@ const ponsClaimed: ProxyOptions = { target: 'https://balancesapi.ponsfamily.com'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  define: { __BUILD__: JSON.stringify(BUILD) },
   server: {
     // reachable from other devices on the same Wi-Fi (phone): http://<this PC's IP>:5173
     host: true,
